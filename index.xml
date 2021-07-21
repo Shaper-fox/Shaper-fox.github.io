@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Wallis</title>
-    <link>http://localhost:1313/</link>
+    <link>https://bomir.github.io/</link>
     <description>Recent content on Wallis</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Fri, 12 Feb 2021 21:19:05 +0000</lastBuildDate>
     
-        <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="https://bomir.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Docker底层原理介绍</title>
-      <link>http://localhost:1313/post/docker-storage/</link>
+      <link>https://bomir.github.io/post/docker-storage/</link>
       <pubDate>Fri, 12 Feb 2021 21:19:05 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/docker-storage/</guid>
+      <guid>https://bomir.github.io/post/docker-storage/</guid>
       
         <description>&lt;h1 id=&#34;docker底层原理介绍&#34;&gt;docker底层原理介绍&lt;/h1&gt;
 &lt;h2 id=&#34;namespace和cgroup的简单理解&#34;&gt;namespace和cgroup的简单理解&lt;/h2&gt;
@@ -551,10 +551,10 @@ total &lt;span style=&#34;color:#099&#34;&gt;12&lt;/span&gt;
     
     <item>
       <title>浅谈基于redis的分布式锁</title>
-      <link>http://localhost:1313/post/base-redis-distributedlock/</link>
+      <link>https://bomir.github.io/post/base-redis-distributedlock/</link>
       <pubDate>Tue, 12 Jan 2021 21:19:05 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/base-redis-distributedlock/</guid>
+      <guid>https://bomir.github.io/post/base-redis-distributedlock/</guid>
       
         <description>&lt;h1 id=&#34;一介绍&#34;&gt;一、介绍&lt;/h1&gt;
 &lt;p&gt;这篇博文讲介绍如何一步步构建一个基于Redis的分布式锁。会从最原始的版本开始，然后根据问题进行调整，最后完成一个较为合理的分布式锁。&lt;/p&gt;
@@ -1230,10 +1230,10 @@ total &lt;span style=&#34;color:#099&#34;&gt;12&lt;/span&gt;
     
     <item>
       <title>Docker基础篇</title>
-      <link>http://localhost:1313/post/docker-basic/</link>
+      <link>https://bomir.github.io/post/docker-basic/</link>
       <pubDate>Fri, 08 Jan 2021 21:19:05 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/docker-basic/</guid>
+      <guid>https://bomir.github.io/post/docker-basic/</guid>
       
         <description>&lt;h1 id=&#34;docker基础篇&#34;&gt;Docker基础篇&lt;/h1&gt;
 &lt;h1 id=&#34;第一章-docker简介&#34;&gt;第一章 Docker简介&lt;/h1&gt;
@@ -5899,10 +5899,10 @@ $ sudo docker push registry&lt;span style=&#34;color:#000;font-weight:bold&#34;&
     
     <item>
       <title>常用设计模式-5种创建型模式</title>
-      <link>http://localhost:1313/post/common-design-pattern-five-constructionmode/</link>
+      <link>https://bomir.github.io/post/common-design-pattern-five-constructionmode/</link>
       <pubDate>Thu, 15 Oct 2020 20:51:05 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/common-design-pattern-five-constructionmode/</guid>
+      <guid>https://bomir.github.io/post/common-design-pattern-five-constructionmode/</guid>
       
         <description>&lt;h1 id=&#34;设计模式&#34;&gt;设计模式&lt;/h1&gt;
 &lt;p&gt;​										— 可复用面向对象软件的基础&lt;/p&gt;
@@ -6817,10 +6817,10 @@ The dependency of one class to another one should depend on the smallest possibl
     
     <item>
       <title>了解redis</title>
-      <link>http://localhost:1313/post/redis-basic1/</link>
+      <link>https://bomir.github.io/post/redis-basic1/</link>
       <pubDate>Mon, 12 Oct 2020 22:19:05 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/redis-basic1/</guid>
+      <guid>https://bomir.github.io/post/redis-basic1/</guid>
       
         <description>&lt;h2 id=&#34;redisconf详解&#34;&gt;Redis.conf详解&lt;/h2&gt;
 &lt;p&gt;1.配置文件 unit单位对大小写不敏感；&lt;/p&gt;
@@ -7395,10 +7395,10 @@ OK
     
     <item>
       <title>了解微服务架构</title>
-      <link>http://localhost:1313/post/microservices-structure/</link>
+      <link>https://bomir.github.io/post/microservices-structure/</link>
       <pubDate>Fri, 25 Sep 2020 22:19:05 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/microservices-structure/</guid>
+      <guid>https://bomir.github.io/post/microservices-structure/</guid>
       
         <description>&lt;h3 id=&#34;p1----什么是微服务架构&#34;&gt;P1  - 什么是微服务架构？&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&#34;https://imgtu.com/i/Wdf6V1&#34;&gt;&lt;img src=&#34;https://z3.ax1x.com/2021/07/21/Wdf6V1.png&#34; alt=&#34;Wdf6V1.png&#34;&gt;&lt;/a&gt;&lt;/p&gt;
@@ -7598,10 +7598,10 @@ OK
     
     <item>
       <title>MySQL优化笔记</title>
-      <link>http://localhost:1313/post/mysql-ehancement/</link>
+      <link>https://bomir.github.io/post/mysql-ehancement/</link>
       <pubDate>Sun, 12 Jul 2020 22:19:05 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/mysql-ehancement/</guid>
+      <guid>https://bomir.github.io/post/mysql-ehancement/</guid>
       
         <description>&lt;h1 id=&#34;mysql-分层存储引擎&#34;&gt;MySQL 分层、存储引擎&lt;/h1&gt;
 &lt;h2 id=&#34;mysql-分层&#34;&gt;mysql 分层&lt;/h2&gt;
@@ -10730,10 +10730,10 @@ mysql&amp;gt; select * from mysql.general_log;
     
     <item>
       <title>.netcore垃圾回收</title>
-      <link>http://localhost:1313/post/netcore-garbagecollection/</link>
+      <link>https://bomir.github.io/post/netcore-garbagecollection/</link>
       <pubDate>Sun, 28 Jun 2020 22:19:05 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/netcore-garbagecollection/</guid>
+      <guid>https://bomir.github.io/post/netcore-garbagecollection/</guid>
       
         <description>&lt;h1 id=&#34;netcore垃圾收集&#34;&gt;.NetCore垃圾收集&lt;/h1&gt;
 &lt;p&gt;在本节中，我们将介绍垃圾收集的概念，垃圾收集是.NET托管代码平台最重要的特性之一。 垃圾收集器(GC)管理内存的分配和释放。 垃圾收集器用作自动内存管理器。&lt;/p&gt;
@@ -10793,10 +10793,10 @@ mysql&amp;gt; select * from mysql.general_log;
     
     <item>
       <title>.netcore之Program类</title>
-      <link>http://localhost:1313/post/net-core-program_class/</link>
+      <link>https://bomir.github.io/post/net-core-program_class/</link>
       <pubDate>Mon, 25 May 2020 22:19:05 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/net-core-program_class/</guid>
+      <guid>https://bomir.github.io/post/net-core-program_class/</guid>
       
         <description>&lt;h2 id=&#34;aspnet-core-启动和配置&#34;&gt;ASP.NET Core 启动和配置&lt;/h2&gt;
 &lt;ul&gt;
@@ -11083,10 +11083,10 @@ mysql&amp;gt; select * from mysql.general_log;
     
     <item>
       <title>.netcore之Startup类</title>
-      <link>http://localhost:1313/post/net-core-startup_class/</link>
+      <link>https://bomir.github.io/post/net-core-startup_class/</link>
       <pubDate>Wed, 20 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/net-core-startup_class/</guid>
+      <guid>https://bomir.github.io/post/net-core-startup_class/</guid>
       
         <description>&lt;h2 id=&#34;startup-类注册服务和使用中间件&#34;&gt;Startup 类：注册服务和使用中间件**&lt;/h2&gt;
 &lt;p&gt;Startup类默认生成了两个方法，在这个类中主要负责注册服务和使用中间件。&lt;/p&gt;
@@ -11261,10 +11261,10 @@ mysql&amp;gt; select * from mysql.general_log;
     
     <item>
       <title>redis快速入门</title>
-      <link>http://localhost:1313/post/redis-basic0/</link>
+      <link>https://bomir.github.io/post/redis-basic0/</link>
       <pubDate>Tue, 12 May 2020 22:19:05 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/redis-basic0/</guid>
+      <guid>https://bomir.github.io/post/redis-basic0/</guid>
       
         <description>&lt;h2 id=&#34;string类型数据的扩展操作&#34;&gt;String类型数据的扩展操作&lt;/h2&gt;
 &lt;h4 id=&#34;业务场景一&#34;&gt;业务场景一&lt;/h4&gt;
@@ -11879,10 +11879,10 @@ zincrby key increment member
     
     <item>
       <title>Postman使用教程</title>
-      <link>http://localhost:1313/post/postman-learning/</link>
+      <link>https://bomir.github.io/post/postman-learning/</link>
       <pubDate>Wed, 11 Sep 2019 22:01:57 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/postman-learning/</guid>
+      <guid>https://bomir.github.io/post/postman-learning/</guid>
       
         <description>&lt;h1 id=&#34;postman使用教程一&#34;&gt;PostMan使用教程(一)&lt;/h1&gt;
 &lt;h2 id=&#34;下载安装&#34;&gt;下载安装&lt;/h2&gt;
@@ -12164,10 +12164,10 @@ ation header。所以在生成header之前要确保设置的正确性。如果�
     
     <item>
       <title>彻底理解cookie session token</title>
-      <link>http://localhost:1313/post/full-know-cookie-session-token/</link>
+      <link>https://bomir.github.io/post/full-know-cookie-session-token/</link>
       <pubDate>Mon, 26 Aug 2019 22:29:54 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/full-know-cookie-session-token/</guid>
+      <guid>https://bomir.github.io/post/full-know-cookie-session-token/</guid>
       
         <description>&lt;h3 id=&#34;发展史&#34;&gt;发展史&lt;/h3&gt;
 &lt;ol&gt;
@@ -12287,10 +12287,10 @@ ation header。所以在生成header之前要确保设置的正确性。如果�
     
     <item>
       <title>C#语法回顾I</title>
-      <link>http://localhost:1313/post/csharp-basic/</link>
+      <link>https://bomir.github.io/post/csharp-basic/</link>
       <pubDate>Sat, 24 Aug 2019 22:19:05 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/csharp-basic/</guid>
+      <guid>https://bomir.github.io/post/csharp-basic/</guid>
       
         <description>&lt;h1 id=&#34;c-重载与重写&#34;&gt;C# 重载与重写&lt;/h1&gt;
 &lt;h2 id=&#34;基本定义&#34;&gt;基本定义&lt;/h2&gt;
@@ -13324,10 +13324,10 @@ Nullable&amp;lt;&lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;int&lt;/
     
     <item>
       <title>Rest API接口测试</title>
-      <link>http://localhost:1313/post/rest-api-test/</link>
+      <link>https://bomir.github.io/post/rest-api-test/</link>
       <pubDate>Tue, 20 Aug 2019 22:48:50 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/rest-api-test/</guid>
+      <guid>https://bomir.github.io/post/rest-api-test/</guid>
       
         <description>&lt;h1 id=&#34;为什么做接口测试&#34;&gt;为什么做接口测试&lt;/h1&gt;
 &lt;p&gt;很多系统关联都是基于&lt;strong&gt;接口&lt;/strong&gt;来实现，接口测试可以将复杂的系统关联进行简化。&lt;/p&gt;
@@ -13638,10 +13638,10 @@ Nullable&amp;lt;&lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;int&lt;/
     
     <item>
       <title>Fiddler抓包工具总结</title>
-      <link>http://localhost:1313/post/fiddler-tool/</link>
+      <link>https://bomir.github.io/post/fiddler-tool/</link>
       <pubDate>Sat, 17 Aug 2019 21:03:54 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/fiddler-tool/</guid>
+      <guid>https://bomir.github.io/post/fiddler-tool/</guid>
       
         <description>&lt;h3 id=&#34;fiddler介绍&#34;&gt;Fiddler介绍&lt;/h3&gt;
 &lt;p&gt;Fiddler（中文名称：小提琴）是一个HTTP的调试代理，以代理服务器的方式，监听系统的Http网络数据流动，Fiddler可以也可以让你检查所有的HTTP通讯，设置断点，以及Fiddle所有的“进出”的数据（我一般用来抓包）,Fiddler还包含一个简单却功能强大的基于JScript .NET事件脚本子系统，它可以支持众多的HTTP调试任务。&lt;/p&gt;
@@ -14367,10 +14367,10 @@ Cookie其实就是request 中的一个header,注意:FiddlerScript不能直接删
     
     <item>
       <title>HTTP</title>
-      <link>http://localhost:1313/post/http/</link>
+      <link>https://bomir.github.io/post/http/</link>
       <pubDate>Sat, 17 Aug 2019 18:56:34 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/http/</guid>
+      <guid>https://bomir.github.io/post/http/</guid>
       
         <description>&lt;h1 id=&#34;网络&#34;&gt;网络&lt;/h1&gt;
 &lt;h2 id=&#34;http-条件-get-使用的方法&#34;&gt;HTTP 条件 GET 使用的方法？&lt;/h2&gt;
@@ -14401,10 +14401,10 @@ Connection: close
     
     <item>
       <title>Python常见题</title>
-      <link>http://localhost:1313/post/python-common-questions/</link>
+      <link>https://bomir.github.io/post/python-common-questions/</link>
       <pubDate>Thu, 08 Aug 2019 14:45:16 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/python-common-questions/</guid>
+      <guid>https://bomir.github.io/post/python-common-questions/</guid>
       
         <description>&lt;h4 id=&#34;1python常见面试题1&#34;&gt;(1)Python常见面试题1&lt;/h4&gt;
 &lt;p&gt;&lt;strong&gt;1.Python是如何进行内存管理的？&lt;/strong&gt;&lt;/p&gt;
@@ -15009,10 +15009,10 @@ monkey_patch_json()
     
     <item>
       <title>浅谈Tornado</title>
-      <link>http://localhost:1313/post/basic-tornado/</link>
+      <link>https://bomir.github.io/post/basic-tornado/</link>
       <pubDate>Wed, 03 Jul 2019 17:51:08 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/basic-tornado/</guid>
+      <guid>https://bomir.github.io/post/basic-tornado/</guid>
       
         <description>&lt;h2 id=&#34;高并发处理框架tornado&#34;&gt;高并发处理框架—Tornado&lt;/h2&gt;
 &lt;h3 id=&#34;tornado介绍&#34;&gt;Tornado介绍&lt;/h3&gt;
@@ -16151,10 +16151,10 @@ LANGUAGE: Chinese
     
     <item>
       <title>web服务器纵览</title>
-      <link>http://localhost:1313/post/web-servers-choose/</link>
+      <link>https://bomir.github.io/post/web-servers-choose/</link>
       <pubDate>Mon, 18 Mar 2019 19:21:41 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/web-servers-choose/</guid>
+      <guid>https://bomir.github.io/post/web-servers-choose/</guid>
       
         <description>&lt;h3 id=&#34;web框架概览&#34;&gt;web框架概览&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;1）网络框架及MVC架构&lt;/strong&gt;&lt;/p&gt;

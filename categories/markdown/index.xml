@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>markdown on Wallis</title>
-    <link>http://localhost:1313/categories/markdown/</link>
+    <link>https://bomir.github.io/categories/markdown/</link>
     <description>Recent content in markdown on Wallis</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 08 May 2017 10:49:51 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/markdown/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 May 2017 10:49:51 +0000</lastBuildDate><atom:link href="https://bomir.github.io/categories/markdown/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>markdown入门I</title>
-      <link>http://localhost:1313/post/markdown-start1/</link>
+      <link>https://bomir.github.io/post/markdown-start1/</link>
       <pubDate>Mon, 08 May 2017 10:49:51 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/markdown-start1/</guid>
+      <guid>https://bomir.github.io/post/markdown-start1/</guid>
       <description>Markdown基本语法介绍 参考链接:https://www.jianshu.com/p/b03a8d7b1719 简明教程：https://</description>
     </item>
     
     <item>
       <title>Markdown入门0</title>
-      <link>http://localhost:1313/post/markdown-0/</link>
+      <link>https://bomir.github.io/post/markdown-0/</link>
       <pubDate>Wed, 26 Apr 2017 17:17:14 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/markdown-0/</guid>
+      <guid>https://bomir.github.io/post/markdown-0/</guid>
       <description>Markdown——入门指南(补充版) 导语： Markdown 是一种轻量级的「标记语言」，它的优点很多，目前也被越来越多的写作爱好者，撰稿者广泛使用。看到这</description>
     </item>
     

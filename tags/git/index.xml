@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>git on Wallis</title>
-    <link>http://localhost:1313/tags/git/</link>
+    <link>https://bomir.github.io/tags/git/</link>
     <description>Recent content in git on Wallis</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 17 Oct 2017 22:01:14 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 17 Oct 2017 22:01:14 +0000</lastBuildDate><atom:link href="https://bomir.github.io/tags/git/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>git入门</title>
-      <link>http://localhost:1313/post/git-start/</link>
+      <link>https://bomir.github.io/post/git-start/</link>
       <pubDate>Tue, 17 Oct 2017 22:01:14 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/git-start/</guid>
+      <guid>https://bomir.github.io/post/git-start/</guid>
       <description>Git入门 Git介绍 ​ 版本控制。 牛X的互联网，牛X的大神们都在用 完整的版本控制功能，解决多人协作的问题 提高开发效率 程序员的必备技能，务必学习</description>
     </item>
     

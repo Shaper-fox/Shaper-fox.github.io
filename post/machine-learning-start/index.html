@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>初识机器学习 - Wallis</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="bomir" />
+  <meta name="description" content="什么是机器学习 什么是机器学习？ 机器学习指的是计算机对历史数据进行统计分析，找出规律，建立模型，最关键的是可以对未来不确定性场景进行判断和决策" />
+
+  <meta name="keywords" content="Hugo, theme, jane" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0" />
+
+
+<link rel="canonical" href="http://localhost:1313/post/machine-learning-start/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.b3a8813c06e6d785beba22bf8264e174fa2cb3a396b22f9ba24e2c00c18aaf7f.css" integrity="sha256-s6iBPAbm14W&#43;uiK/gmThdPoss6OWsi&#43;bok4sAMGKr38=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="初识机器学习" />
+<meta property="og:description" content="什么是机器学习 什么是机器学习？ 机器学习指的是计算机对历史数据进行统计分析，找出规律，建立模型，最关键的是可以对未来不确定性场景进行判断和决策" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/post/machine-learning-start/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-08-15T22:02:14+00:00" />
+<meta property="article:modified_time" content="2018-08-15T22:02:14+00:00" />
+
+<meta itemprop="name" content="初识机器学习">
+<meta itemprop="description" content="什么是机器学习 什么是机器学习？ 机器学习指的是计算机对历史数据进行统计分析，找出规律，建立模型，最关键的是可以对未来不确定性场景进行判断和决策"><meta itemprop="datePublished" content="2018-08-15T22:02:14+00:00" />
+<meta itemprop="dateModified" content="2018-08-15T22:02:14+00:00" />
+<meta itemprop="wordCount" content="3583">
+<meta itemprop="keywords" content="ML," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="初识机器学习"/>
+<meta name="twitter:description" content="什么是机器学习 什么是机器学习？ 机器学习指的是计算机对历史数据进行统计分析，找出规律，建立模型，最关键的是可以对未来不确定性场景进行判断和决策"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">秤流沙</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/">首页</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/post/">归档</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/categories/">分类</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/about/">关于我</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/Bicomir" rel="noopener" target="_blank">
+              Github
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      秤流沙
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/">首页</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/post/">归档</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="http://localhost:1313/about/">关于我</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/Bicomir" rel="noopener" target="_blank">
+              Github
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">初识机器学习</h1>
+      
+      <div class="post-meta">
+        <time datetime="2018-08-15" class="post-time">
+          2018-08-15
+        </time>
+        <div class="post-category">
+            <a href="http://localhost:1313/categories/machine-learning/"> Machine  Learning </a>
+            
+          </div>
+        <span class="more-meta"> 约 3583 字 </span>
+          <span class="more-meta"> 预计阅读 8 分钟 </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#什么是机器学习">什么是机器学习</a></li>
+        <li><a href="#生活中的机器学习">生活中的机器学习</a></li>
+        <li><a href="#数据分析和机器学习的区别">数据分析和机器学习的区别</a></li>
+        <li><a href="#常用算法">常用算法</a></li>
+        <li><a href="#机器学习解决问题的流程">机器学习解决问题的流程</a></li>
+        <li><a href="#demo">Demo</a></li>
+        <li><a href="#参考文献">参考文献</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <h3 id="什么是机器学习">什么是机器学习</h3>
+<h4 id="什么是机器学习-1">什么是机器学习？</h4>
+<p>机器学习指的是<strong>计算机</strong>对历史数据进行统计分析，找出规律，建立模型，最关键的是可以对未来<strong>不确定性</strong>场景进行判断和决策。</p>
+<p>具体可见，<a href="https://www.jianshu.com/p/ac6b163dc3be">什么是机器学习</a>。</p>
+<p>那什么是不确定性的场景呢？比如说太阳明天从什么地方升起，这就是确定的场景，因为永远都是从东方升起，从西方落下。但是下个季度的能完成多少业绩，这就是不确定的。</p>
+<p>理解机器学习需要注意以下几个要点：</p>
+<ul>
+<li>
+<p>对历史数据的分析的主体是<strong>机器</strong>而不是人，这就与数据分析区别开了。</p>
+<p>数据分析因为主体是人，所以能分析出什么很大程度取决于人的水平。而机器学习其实就是想撇开人的因素，完全使用机器来挖掘数据</p>
+</li>
+<li>
+<p>需要大量的原材料，也就是<strong>数据</strong></p>
+<p>只有数据多了，能找出来的规律就越精准</p>
+</li>
+<li>
+<p>找出了规律如何落地：</p>
+<p>从数据中挖掘出来的规律，其实就是一个<strong>函数</strong>，我们可以把输入代进去，就可以得到输出。那机器挖掘出这个规律以后，会直接由机器生成代码。</p>
+<p><img src="https://i.loli.net/2019/08/17/5hVfqtoXRwju2m8.jpg" alt="1323506-2ca6beacdbf0b323.webp.jpg"></p>
+</li>
+</ul>
+<h4 id="从数据中寻找规律">从数据中寻找规律</h4>
+<p><em>全量数据分析</em></p>
+<p>人们从数据中寻找规律的历史已经非常长了，还建立了<strong>概率论和统计学</strong>两门学科。</p>
+<p>在过去很长一段时间里面，因为受限于人类的计算能力，我们对数据一般会先<strong>采样</strong>，建立模型。但是因为是采样的，一定有样本的损失，所以一般来说会回过头去验证这个模型是否靠谱。</p>
+<p>那我们来总结一下整个流程：</p>
+<p><code>抽样——&gt;描述统计——&gt;结论——&gt;假设检验</code></p>
+<p>不过现在因为计算能力得到很大的提升，我们完全可以对<strong>全量</strong>的数据进行分析了。</p>
+<h4 id="从可视化到函数">从可视化到函数</h4>
+<p>假设我们现在想分析美国某个地区的气温的情况，最直观的方法是把历史数据画一个图，可视化展示，这样就可以直观的了解其规律。</p>
+<p><img src="https://i.loli.net/2019/08/17/YoEybdUZVMr7tKq.jpg" alt="1323506-3e109a090cb555dd.webp.jpg"></p>
+<p>比如从上图这个<strong>散点图</strong>里面，我们可以发现如下规律：</p>
+<ul>
+<li>这些年的气温总体是<strong>上升</strong>的</li>
+<li>局部是上下波动的。</li>
+</ul>
+<p>这种方法最大的好处是直观，缺点是没办法进行计算，所以我们需要进行量化。</p>
+<p>那怎么使用模型来拟合规律呢？</p>
+<p>我们可以使用<strong>函数</strong>来拟合，然后通过函数画一条函数曲线。</p>
+<p>我们希望这个函数曲线可以尽量的与之前的散点图<strong>拟合</strong>在一起。</p>
+<h4 id="机器学习发展的源动力">机器学习发展的源动力</h4>
+<p>机器学习在这几年得到蓬勃发展，其主要动力是：</p>
+<ul>
+<li>从历史数据中找出规律，可以辅助未来决策。</li>
+<li>用数据代替专家</li>
+<li>数据变现</li>
+</ul>
+<h4 id="业务系统发展的历史">业务系统发展的历史</h4>
+<p>最开始的时候基本上是靠人拍脑袋决定业务的方向，后面引入了数据的因素，也就是让一批懂数据分析的人，按照不同的维度整理报表，同样人的因素在里面依然重要。结论准确不准确，依靠的是这个人的经验如何。</p>
+<p>而第三个阶段就是机器学习，可以分为离线以及在线学习。</p>
+<ul>
+<li>离线学习：利用空余时间训练模型，然后把模型应用到原来的系统中。</li>
+<li>在线学习：来一条数据就可以加入原有的模型中，也就是模型是实时更新的。主要还是电商、搜索等行业需求比较多。</li>
+</ul>
+<p>在线学习和离线学习在算法层面其实没有什么差异。</p>
+<h3 id="生活中的机器学习">生活中的机器学习</h3>
+<h4 id="关联规则">关联规则</h4>
+<p>最典型的案例是啤酒和尿布，具体的可见什么是机器学习</p>
+<p>这个算法也就有了个新的名称，叫“购物篮算法”</p>
+<h4 id="聚类">聚类</h4>
+<p>使用聚类可以解决用户细分精准营销的问题。聚类算法可以把一堆消费的数据进行分析，将用户分为若干类。再由业务人员去看哪一类的人员有什么样的消费特征。</p>
+<h4 id="朴素贝叶斯和决策树">朴素贝叶斯和决策树</h4>
+<p>朴素贝叶斯的典型应用是<strong>垃圾邮件</strong>识别。</p>
+<p>贝叶斯就是通过一些公式计算事件A对事件B的发生概率的影响，所以垃圾邮件识别就是通过邮件的一些特征，比如一些关键词、发件人等来判断该邮件是垃圾邮件的概率。</p>
+<p>决策树主要用在<strong>防信用卡欺诈</strong>上，主要是银行用来进行信贷的风险识别，以决定是否放贷给你，它可以识别你是否有能力偿还贷款，另一方面还可以判断你是否是恶意骗贷。</p>
+<h4 id="ctr预估和协同过滤">ctr预估和协同过滤</h4>
+<p>ctr预估主要用于搜索引擎的互联网广告，对于每条链接，百度都会对它进行<strong>点击率</strong>进行评估，然后把预测出来的最可能点击的链接放到第一位。里面使用的算法就叫“线性的逻辑回归”。</p>
+<p><img src="https://i.loli.net/2019/08/17/h3sHmjkotg7AW5E.jpg" alt="1323506-1a3ddc66a0e1c705.webp.jpg"></p>
+<p>协同过滤主要用在<strong>推荐系统</strong>里面。其实就非常类似于之前讲过的购物车分析，只是可能的算法不一样，但是要解决的问题都一样。</p>
+<h4 id="自然语言处理和图像识别">自然语言处理和图像识别</h4>
+<p>自然语言处理又是机器学习的另一个领域了，可以进行</p>
+<ul>
+<li>情感分析</li>
+<li>实体识别：可以把人名、地名等识别出来</li>
+</ul>
+<p>深度学习目前主要用于图像识别，可以对图片进行深度学习 ，识别图片中人物的特征。</p>
+<p><img src="http://m.qpic.cn/psb?/V11LBpl80UoTHW/DRcBROv*6J6Z1p4XUwHv0CAuGX7vs01BSxhjAbYgDME!/b/dL4AAAAAAAAA&amp;bo=zgIHAgAAAAARB*k!&amp;rf=viewer_4" alt=""></p>
+<p><img src="http://m.qpic.cn/psb?/V11LBpl80UoTHW/xr1WIRLCI*GBArHPYeaLYgRcuEkKcgeQfK57JOZPHw8!/b/dFABAAAAAAAA&amp;bo=PQJ5AQAAAAARB3c!&amp;rf=viewer_4" alt=""></p>
+<h3 id="数据分析和机器学习的区别">数据分析和机器学习的区别</h3>
+<p>本章主要介绍数据分析与机器学习之间的区别在哪里。</p>
+<ul>
+<li>首先他们分析的数据不同，
+<ul>
+<li>数据分析主要处理的是交易数据，而机器学习主要分析的是行为数据，比如搜索历史、点击历史、评论等。</li>
+<li>从这两类数据就衍生出数据量的不同，交易数据明显就是少量的数据，而用户的行为数据就是海量的数据。</li>
+<li>对两种数据分析方法也是不一样的</li>
+</ul>
+</li>
+</ul>
+<p>对交易数据一致性要求非常高，而行为数据一致性要求并不高。所以行为数据一般使用NoSQL来处理。NoSQL数据库只能用来处理行为数据，因为它的底层架构就是分布式的，而且强调CAP的概念，也就是在保证数据吞吐量的前提下，会对一致性大大折扣。</p>
+<p>所以对于交易数据而言，我们通常可以采用采样分析的方法。对行为数据，我们一般采用全量分析，这也是我们强调Hadoop等海量数据分析平台的原因</p>
+<ul>
+<li>他们要回答的问题也是不一样的。</li>
+</ul>
+<p>传统的数据分析，其实是想要报告历史上发生了的事情的。比如过年3年内，哪些是我们的优质客户，业绩如何等等。</p>
+<p>而机器学习更重要的是预测未来会发生什么事情，这就是二者最本质的区别。</p>
+<ul>
+<li>采用的技术手段不同。</li>
+</ul>
+<p>数据分析主要是靠人的经验来进行分析建模，利用OLAP联机的分析工具。分析的能力受限于分析师本人。也限制了我们数据处理的维度以及属性。</p>
+<p>而机器学习主要靠算法驱动，可以维度可以相当大。</p>
+<p><img src="http://m.qpic.cn/psb?/V11LBpl80UoTHW/0n3d*bugScOBcLqghHs4QIqUr6OGursoE9Vz7etm46E!/b/dMMAAAAAAAAA&amp;bo=2wIMAgAAAAARF*c!&amp;rf=viewer_4" alt=""></p>
+<p>实际上，部分算法已经很成熟了，比如推荐系统算法等。</p>
+<ul>
+<li>
+<p>参与者不同。</p>
+<p>数据分析主要靠分析师的能力。</p>
+</li>
+</ul>
+<p>而机器学习靠算法来驱动，主要靠数据质量来决定结果，而算法的区别其实没有那么悬殊。</p>
+<ul>
+<li>服务的对象不同。</li>
+</ul>
+<p>数据分析主要面向的还是高层，为他们提供决策驾驶舱。机器学习更多的是面向个人。</p>
+<p><img src="http://m.qpic.cn/psb?/V11LBpl80UoTHW/xrr9KeHA2.Sq6HCjQxnmO9Oi6WYSNz1TgSTo17Iy27M!/b/dLYAAAAAAAAA&amp;bo=WwKPAQAAAAARF*c!&amp;rf=viewer_4" alt=""></p>
+<h3 id="常用算法">常用算法</h3>
+<h4 id="分类别">分类别</h4>
+<p>机器学习的算法相当之多，我们可以进行简单的分类，而且分类的方法也多种多样，</p>
+<p>按学习方法分类别，我们可以把算法分为：</p>
+<ul>
+<li>有监督学习：</li>
+</ul>
+<p>对分类数据提前打好了标签，然后对一堆数据进行训练。</p>
+<p><img src="http://m.qpic.cn/psb?/V11LBpl80UoTHW/LwpGMNnbv1ahr2JT5iLpbnPvKt600XciMLSLtACwgDU!/b/dMMAAAAAAAAA&amp;bo=ywFHAQAAAAARF6w!&amp;rf=viewer_4" alt=""></p>
+<p>典型的有监督学习算法是分类算法和回归算法，**这两者明确给出了最终的目的是什么。**比如分类算法给出了Y，也就是明确了最终可以区分出那些是垃圾，那些是正常邮件。</p>
+<ul>
+<li>无监督学习</li>
+</ul>
+<p>就是我们最终要分的类别其实我们事先是不知道的。最典型的就是聚类。只能让算法自己的推测出Y是什么。</p>
+<ul>
+<li>半监督学习：也叫强化算法。</li>
+</ul>
+<p>有目的，但是可能不准确，然后一步一步的修正。</p>
+<p>第二种分类的方法是根据我们要解决的问题来进行分类。</p>
+<ul>
+<li>分类与回归：根据问题来进行分类。</li>
+<li>聚类</li>
+<li>标注：给一段文本，对里面的词语打上标签。</li>
+</ul>
+<p><img src="http://m.qpic.cn/psb?/V11LBpl80UoTHW/UTDrEq.qu7qWP12vm38ChKXWNmZGNuRA.hJw7jxbq9U!/b/dLYAAAAAAAAA&amp;bo=ugF1AAAAAAARF.4!&amp;rf=viewer_4" alt=""></p>
+<p>第三种分类是生成模型和判别模型，这种分类算法直指<strong>算法本质</strong>。</p>
+<ul>
+<li>生成模型：它不会告诉你属于哪一类，只是告诉你属于哪一类的概率。</li>
+<li>判别模型：相当于有个函数，给一个输入，就可以告诉这个数据属于哪个一类别，直指最后的目的。</li>
+</ul>
+<p>所以他们回答问题的方式是不一样的。</p>
+<p><img src="http://m.qpic.cn/psb?/V11LBpl80UoTHW/ElHPhx8bHFQQOzYaElB1craJo8g84gX9Vp.aW8vVHbw!/b/dLgAAAAAAAAA&amp;bo=UgJ4AQAAAAARFwk!&amp;rf=viewer_4" alt=""></p>
+<h4 id="机器学习常见的算法">机器学习常见的算法</h4>
+<p><img src="http://m.qpic.cn/psb?/V11LBpl80UoTHW/mYFrKWrmhequW8QPWkVjx8mGRe8qGGVgSXVBHPjTpCw!/b/dMMAAAAAAAAA&amp;bo=6AOzAQAAAAARF3k!&amp;rf=viewer_4" alt=""></p>
+<p><img src="http://m.qpic.cn/psb?/V11LBpl80UoTHW/U*m3TM8xA8u2xhSsDaHG7gPPmBfINz3l7UyA.NGyaKQ!/b/dLgAAAAAAAAA&amp;bo=bANcAQAAAAARFxI!&amp;rf=viewer_4" alt=""></p>
+<h3 id="机器学习解决问题的流程">机器学习解决问题的流程</h3>
+<p>机器学习要解决的问题相对而言还是比较单纯的**，一个是预测的问题，一个是聚类的问题。**</p>
+<p>而预测问题无非就是要预测所属的分类要么就是预测数值，本质上就是要预测的Y是个连续型的变量还是一个离散型的变量。</p>
+<p>所以机器学习要解决的问题是比较单纯的。</p>
+<p>为什么会出现了这么多算法呢？他们有没有相似性。</p>
+<p>下面我们可以介绍一下机器学习总的框架，介绍一下算法的通用的思想和指导的原则。</p>
+<p>下面我们来看机器学习是怎么样解决问题的。</p>
+<h4 id="确定目标">确定目标</h4>
+<p>做机器学习之前我们肯定需要先确认业务目标的，看看<strong>业务层面</strong>要解决什么问题。然后</p>
+<ul>
+<li>
+<p>分析业务上有什么样的需求</p>
+</li>
+<li>
+<p>搜集历史数据：数据搜集得越多，则模型构建得更精确。</p>
+</li>
+<li>
+<p>接着就是做很重要的一步就是<strong>数据的预处理</strong>，做整合，提取一些<strong>特征</strong>。</p>
+<p>比如说滴滴打车可能与天气有关，所以天气的数据可能就非常重要，我们可以把它们单独提取出来。</p>
+</li>
+</ul>
+<p>从纯算法来提升性能其实很有限，而数据的质量决定了最后的效果，所以数据的<strong>特征工程</strong>最重要，难点也在如何构建特征工程上。</p>
+<h4 id="训练模型">训练模型</h4>
+<p><strong>定义模型——&gt;定义损失函数——&gt;优化算法</strong></p>
+<p>接下来就是构建模型。</p>
+<ul>
+<li>首先我们要定义一个模型，其实就一个函数，只是有些参数我们不知道。这个模型是根据我们要解决的问题来定义的。</li>
+</ul>
+<p><img src="http://m.qpic.cn/psb?/V11LBpl80UoTHW/qzptXd8Eku6LGisaHEoyhii6VlbvAq4zynUsK6Xr7qY!/b/dD4BAAAAAAAA&amp;bo=vAFPAAAAAAARB8I!&amp;rf=viewer_4" alt=""></p>
+<ul>
+<li>
+<p>然后定义<strong>损失函数</strong>:做机器学习，其实就是要做预测，既然是预测，所以一定是与真实情况有偏差的。损失函数就是定义一个偏差的大小，就是一个标准。评价的标准，相似程度有多大。评估这个模型好不好。</p>
+<p>回归问题的损失函数比较容易定义，因为回归就是找一个恰当的模型，我们把真实的情况减去使用这个模型得到的值就可以获得到损失函数</p>
+<p>但是分类问题就比较难做了。</p>
+</li>
+<li>
+<p>优化算法：</p>
+<p>让损失函数取最小值的。也就是让函数求最小值。</p>
+</li>
+</ul>
+<p>英文：</p>
+<p><img src="http://m.qpic.cn/psb?/V11LBpl80UoTHW/USXCFOxw7dojn4B05S*sOZW0GTnN6ey9FzCwudCZyrw!/b/dLgAAAAAAAAA&amp;bo=GQK2AQAAAAADB44!&amp;rf=viewer_4" alt=""></p>
+<p>中文：</p>
+<p><img src="http://m.qpic.cn/psb?/V11LBpl80UoTHW/wgFBOMFmMP136ZgsaL3P68FU0ZY4stNEcgEVIL25lxk!/b/dL4AAAAAAAAA&amp;bo=5QGWAQAAAAARF1M!&amp;rf=viewer_4" alt=""></p>
+<h4 id="模型评估">模型评估</h4>
+<p>我们是从历史的数据中得到的模型，需要进行验证，</p>
+<ul>
+<li>交叉验证</li>
+<li>效果评估</li>
+</ul>
+<p><img src="http://m.qpic.cn/psb?/V11LBpl80UoTHW/3AfRyyz7xt3o1IM4pV*Yuywujh0DpfsnRb4ofS5WpvA!/b/dL4AAAAAAAAA&amp;bo=fQKYAQAAAAARF8Y!&amp;rf=viewer_4" alt=""></p>
+<h3 id="demo">Demo</h3>
+<p><strong>图片按照色彩聚类</strong></p>
+<p>待续&hellip;</p>
+<h3 id="参考文献">参考文献</h3>
+<p>[1] <a href="https://www.jianshu.com/p/ac6b163dc3be">什么是机器学习</a></p>
+<p>[2] <a href="https://www.imooc.com/learn/717">初识机器学习-理论篇</a></p>
+<p>[3] <a href="https://www.jianshu.com/p/7f9ba831d055">初识机器学习</a></p>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">bomir</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2018-08-15
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="http://localhost:1313/tags/ml/">ML</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/python-multithread/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Python多线程</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/frount-end-300/">
+            <span class="next-text nav-default">前端300题</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:jinchunw@385@gmail.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://github.com/Bicomir" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+
+
+<a href="http://localhost:1313/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2017 -
+    2021
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        bomir
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>redis快速入门 - Wallis</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="bomir" />
+  <meta name="description" content="String类型数据的扩展操作 业务场景一 大型企业级应用中，分表操作是基本操作，使用多张表存储同类型数据，但是对应的主键id必须保证统一性，不" />
+
+  <meta name="keywords" content="Hugo, theme, jane" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0" />
+
+
+<link rel="canonical" href="https://bomir.github.io/post/redis-basic0/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.b3a8813c06e6d785beba22bf8264e174fa2cb3a396b22f9ba24e2c00c18aaf7f.css" integrity="sha256-s6iBPAbm14W&#43;uiK/gmThdPoss6OWsi&#43;bok4sAMGKr38=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="redis快速入门" />
+<meta property="og:description" content="String类型数据的扩展操作 业务场景一 大型企业级应用中，分表操作是基本操作，使用多张表存储同类型数据，但是对应的主键id必须保证统一性，不" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bomir.github.io/post/redis-basic0/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-05-12T22:19:05+00:00" />
+<meta property="article:modified_time" content="2020-05-12T22:19:05+00:00" />
+
+<meta itemprop="name" content="redis快速入门">
+<meta itemprop="description" content="String类型数据的扩展操作 业务场景一 大型企业级应用中，分表操作是基本操作，使用多张表存储同类型数据，但是对应的主键id必须保证统一性，不"><meta itemprop="datePublished" content="2020-05-12T22:19:05+00:00" />
+<meta itemprop="dateModified" content="2020-05-12T22:19:05+00:00" />
+<meta itemprop="wordCount" content="4522">
+<meta itemprop="keywords" content="redis," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="redis快速入门"/>
+<meta name="twitter:description" content="String类型数据的扩展操作 业务场景一 大型企业级应用中，分表操作是基本操作，使用多张表存储同类型数据，但是对应的主键id必须保证统一性，不"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">秤流沙</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bomir.github.io/">首页</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bomir.github.io/post/">归档</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bomir.github.io/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bomir.github.io/categories/">分类</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bomir.github.io/about/">关于我</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/Bicomir" rel="noopener" target="_blank">
+              Github
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      秤流沙
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bomir.github.io/">首页</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bomir.github.io/post/">归档</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bomir.github.io/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bomir.github.io/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bomir.github.io/about/">关于我</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/Bicomir" rel="noopener" target="_blank">
+              Github
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">redis快速入门</h1>
+      
+      <div class="post-meta">
+        <time datetime="2020-05-12" class="post-time">
+          2020-05-12
+        </time>
+        <div class="post-category">
+            <a href="https://bomir.github.io/categories/nosql/"> Nosql </a>
+            
+          </div>
+        <span class="more-meta"> 约 4522 字 </span>
+          <span class="more-meta"> 预计阅读 10 分钟 </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#string类型数据的扩展操作">String类型数据的扩展操作</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#hash数据类型">Hash数据类型</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#list数据类型">list数据类型</a>
+      <ul>
+        <li><a href="#list类型数据基本操作">list类型数据基本操作</a></li>
+        <li><a href="#list类型数据扩展操作">list类型数据扩展操作</a></li>
+        <li><a href="#list类型数据业务背景">list类型数据业务背景</a></li>
+      </ul>
+    </li>
+    <li><a href="#set数据类型">Set数据类型</a>
+      <ul>
+        <li><a href="#set类型数据的基本操作">Set类型数据的基本操作</a></li>
+        <li><a href="#set类型数据扩展操作">Set类型数据扩展操作</a></li>
+        <li><a href="#set型数据业务场景">Set型数据业务场景</a></li>
+      </ul>
+    </li>
+    <li><a href="#sorted_set类型">sorted_set类型</a>
+      <ul>
+        <li><a href="#sorted_set类型数据的基本操作">sorted_set类型数据的基本操作</a></li>
+        <li><a href="#sorted_set类型数据扩展操作">sorted_set类型数据扩展操作</a></li>
+        <li><a href="#sorted_set数据业务场景">sorted_set数据业务场景</a></li>
+      </ul>
+    </li>
+    <li><a href="#数据实践案例">数据实践案例</a>
+      <ul>
+        <li><a href="#场景一">场景一</a></li>
+        <li><a href="#场景二">场景二</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <h2 id="string类型数据的扩展操作">String类型数据的扩展操作</h2>
+<h4 id="业务场景一">业务场景一</h4>
+<p>大型企业级应用中，分表操作是基本操作，使用多张表存储同类型数据，但是对应的主键id必须保证统一性，不能重复。Oracle数据库有Sequence的设定，可以解决该问题，但MySQL数据库并不具有类似的机制，那么该如何解决？</p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/ruAMsa53pVQWN7FLK88i5toZb6kcrr5ThfUnWUa.GQOASAas*WVwvoCMB*F6gvMYJHTqd0A1Fb10NSKV5JbzyObziw7mbcA8ETjsAP2LF2Q!/mnull&amp;bo=PQROAT0ETgEDByI!&amp;rf=photolist&amp;t=5" alt=""></p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/ruAMsa53pVQWN7FLK88i5uIwIWZas6OjpFzS*xC*bgm2weG3t1*eln.zbviKQ29DDnnxSfiBvlKMWmoWoeMToj8DW8uRmrQxAxlp9r7QpsE!/mnull&amp;bo=bgRJAQAAAAADBwA!&amp;rf=photolist&amp;t=5" alt="1615899867130"></p>
+<p>redis， 把原来的一张表分成若干表，并保证所有的id都不重复； 找另一方控制不重复就行了;</p>
+<h5 id="解决方案">解决方案</h5>
+<ul>
+<li>设置数值数据增加指定范围的值</li>
+</ul>
+<pre><code>incr key
+incrby key increment
+incrbyfloat key increment
+</code></pre><ul>
+<li>设置数值数据减少指定范围的值</li>
+</ul>
+<pre><code class="language-redis" data-lang="redis">decr key
+decrby key increment
+</code></pre><p><strong>string作为数值操作</strong></p>
+<ul>
+<li>
+<p>string在redis内部存储默认就是一个字符串，当遇到增减类操作incr， decr时就会转成数值型进行计算;</p>
+</li>
+<li>
+<p>redis所有的操作都是原子性的，采用单线程来处理所有的业务，命令是一个一个的执行的，因此无需考虑并发带来的数据影响;</p>
+</li>
+<li>
+<p>注意: 按数值进行操作的数据，如果原始数据不能转成数值，或超越了redis数值的上限范围，将报错。</p>
+<blockquote>
+<p>9223372036854775807 (java中long型数据的最大值， Long.MAX_VALUE)</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>Tips1:</strong></p>
+<ul>
+<li>redis用于控制数据库表主键id， 为数据库表主键提供生成策略，保障数据库表的主键唯一性;</li>
+<li>此方案适用于所有数据库，且支持数据库集群;</li>
+</ul>
+<h4 id="业务场景二">业务场景二</h4>
+<blockquote>
+<p>&ldquo;最强女生&rdquo; 启动海选投票， 只能通过微信投票， 每个微信号每4小时只能投一票;</p>
+<p>电商商家开启热门商品推荐， 热门商品不能一直处于热门期， 每种商品热门期维持3天， 3天后自动取消热门;</p>
+<p>新闻网站会出现热点新闻，热点新闻最大的特征是时效性， 如何自动控制热点新闻的时效性;</p>
+<p>new_id: HB314790725;</p>
+</blockquote>
+<h5 id="解决方案-1">解决方案</h5>
+<ul>
+<li>设置数据具有指定的生命周期</li>
+</ul>
+<pre><code>setex key seconds value
+psetex key milliseconds value
+</code></pre><p>秒， 毫秒</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; setex tel 10 1
+OK
+127.0.0.1:6379&gt; get tel
+&ldquo;1&rdquo;
+127.0.0.1:6379&gt; get tel
+&ldquo;1&rdquo;
+127.0.0.1:6379&gt; get tel
+(nil)</p>
+</blockquote>
+<p>Tips2:</p>
+<ul>
+<li>Redis控制数据的生命周期， 通过数据是否失效控制业务行为， 适用于所有具有时效性限定控制的操作;</li>
+</ul>
+<p><strong>String类型数据操作的注意事项</strong></p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/ruAMsa53pVQWN7FLK88i5toZb6kcrr5ThfUnWUa.GQP9F3Vm64w1sFzhxAzJMio9fYn4g9LSi2xSw2Gj8ie63As9egq9WCynXTyehYPBjA4!/mnull&amp;bo=xAGqAcQBqgEDByI!&amp;rf=photolist&amp;t=5" alt="1615901644560"></p>
+<p><strong>String类型应用场景</strong></p>
+<ul>
+<li>主页高频访问信息显示控制， 例如新浪微博大V主页显示粉丝数与微博数量;</li>
+</ul>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/ruAMsa53pVQWN7FLK88i5th3fePNwb*pFb9A5WAbu4ER2PnTEE7SPj20kGxYuwH02jnX*6NqeUifuw2DFI*UCEgL0n.ESXrbL5vLc5XINQ4!/mnull&amp;bo=IAOTASADkwEDByI!&amp;rf=photolist&amp;t=5" alt="1615902015163"></p>
+<p><strong>key的设置约定</strong></p>
+<ul>
+<li>数据库中的热点数据key命名惯例</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>表名</th>
+<th>主键名</th>
+<th>主键值</th>
+<th>字段名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>eg1</td>
+<td>order</td>
+<td>id</td>
+<td>29437595</td>
+<td>name</td>
+</tr>
+<tr>
+<td>eg2</td>
+<td>equip</td>
+<td>id</td>
+<td>39047234</td>
+<td>type</td>
+</tr>
+<tr>
+<td>eg3</td>
+<td>news</td>
+<td>id</td>
+<td>20200415</td>
+<td>title</td>
+</tr>
+</tbody>
+</table>
+<h2 id="hash数据类型">Hash数据类型</h2>
+<p>存储的困惑</p>
+<p>对象类数据的存储，如果具有较频繁的更新需求操作会显得笨重;</p>
+<p><img src="C:%5CUsers%5Cwjq%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1615902411357.png" alt="1615902411357"></p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcZRKOZdvI2Uaap*HswVjcWsMAYl4Z2Yfm2HWLMk1op*8ectHpZR1ILcnUemf08J3mPhBNrbjjIOGt2XQvRdA8Nw!/b&amp;bo=JQLhAAAAAAADF*Q!&amp;rf=viewer_4" alt="1615902441957"></p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcYQQuS6sbOYocvxZL5Ul86vifbhmlI2Y3BKleGx8fMgA9oE5pF0oju9wlGkqyj50BiNudC.kMVUaOPUYwLtRLhI!/b&amp;bo=wgL7AAAAAAADFwk!&amp;rf=viewer_4" alt="1615902463626"></p>
+<p>key, field, value; 这就是hash；</p>
+<ul>
+<li>新的存储需求：对一系列存储的数据进行编组，方便管理， 典型应用存储对象信息;</li>
+<li>需要的存储结构： 一个存储空间保存多个键值对数据;</li>
+<li>hash类型： 底层使用哈希表结构实现数据存储;</li>
+</ul>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mccgZHtD*IM0iyOD4iZrrhx.86*f092DqPV1QLLOl.Ui6yEwflE9frxlOO98f7klq0Hs*rmy845Rj2unDwSHA.kE!/b&amp;bo=5gNWAQAAAAADF4A!&amp;rf=viewer_4" alt="1615902670612"></p>
+<h4 id="hash类型数据的基本操作"><strong>hash类型数据的基本操作</strong></h4>
+<ul>
+<li>
+<p>添加 / 修改数据</p>
+<p><code>hset key field value</code></p>
+</li>
+<li>
+<p>获取数据</p>
+<p><code>hget key field</code></p>
+<p><code>hgetall key</code></p>
+</li>
+<li>
+<p>删除数据</p>
+<p><code>hdel key field1 [field2]</code></p>
+</li>
+</ul>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">127.0.0.1:6379&gt; hset user name zhangsan
+<span style="color:#000;font-weight:bold">(</span>integer<span style="color:#000;font-weight:bold">)</span> <span style="color:#099">1</span>
+127.0.0.1:6379&gt; hset user age <span style="color:#099">38</span>
+<span style="color:#000;font-weight:bold">(</span>integer<span style="color:#000;font-weight:bold">)</span> <span style="color:#099">1</span>
+127.0.0.1:6379&gt; hset user weight <span style="color:#099">80</span>
+<span style="color:#000;font-weight:bold">(</span>integer<span style="color:#000;font-weight:bold">)</span> <span style="color:#099">1</span>
+127.0.0.1:6379&gt; hgetall user
+1<span style="color:#000;font-weight:bold">)</span> <span style="color:#d14">&#34;name&#34;</span>
+2<span style="color:#000;font-weight:bold">)</span> <span style="color:#d14">&#34;zhangsan&#34;</span>
+3<span style="color:#000;font-weight:bold">)</span> <span style="color:#d14">&#34;age&#34;</span>
+4<span style="color:#000;font-weight:bold">)</span> <span style="color:#d14">&#34;38&#34;</span>
+5<span style="color:#000;font-weight:bold">)</span> <span style="color:#d14">&#34;weight&#34;</span>
+6<span style="color:#000;font-weight:bold">)</span> <span style="color:#d14">&#34;80&#34;</span>
+127.0.0.1:6379&gt; hget user name
+<span style="color:#d14">&#34;zhangsan&#34;</span>
+127.0.0.1:6379&gt; hdel user weight
+<span style="color:#000;font-weight:bold">(</span>integer<span style="color:#000;font-weight:bold">)</span> <span style="color:#099">1</span>
+127.0.0.1:6379&gt; hgetall user
+1<span style="color:#000;font-weight:bold">)</span> <span style="color:#d14">&#34;name&#34;</span>
+2<span style="color:#000;font-weight:bold">)</span> <span style="color:#d14">&#34;zhangsan&#34;</span>
+3<span style="color:#000;font-weight:bold">)</span> <span style="color:#d14">&#34;age&#34;</span>
+4<span style="color:#000;font-weight:bold">)</span> <span style="color:#d14">&#34;38&#34;</span>
+127.0.0.1:6379&gt;   
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>添加 /  修改多个数据</p>
+<p><code>hmset key field1 value1 field2 value2</code></p>
+</li>
+<li>
+<p>获取多个数据</p>
+<p><code>hmget key field1 field2</code></p>
+</li>
+<li>
+<p>获取哈希表中字段的数量</p>
+<p><code>hlen key</code></p>
+</li>
+<li>
+<p>获取哈希表中是否存在指定的字段</p>
+<p><code>hexists key field</code></p>
+</li>
+</ul>
+<h4 id="hash类型数据扩展操作"><strong>hash类型数据扩展操作</strong></h4>
+<ul>
+<li>获取哈希表中所有的字段名或字段值</li>
+</ul>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">hkeys key
+hvals key
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>设置指定字段的数值数据增加指定范围的值</li>
+</ul>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">hincrby key field increment
+hincrbyfloat key field increment
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="C:%5CUsers%5Cwjq%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1615904006771.png" alt="1615904006771"></p>
+<h4 id="hash类型应用场景">hash类型应用场景</h4>
+<p><strong>业务场景</strong></p>
+<p>电商网站购物车设计实现</p>
+<p>用户id =key, 商品id = field, 数量: value</p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcQafjAnXApSJtXATbj2ZDmwfwqDNu35klyu.tFmkpTmU*uUftNIcISD9x5lCXF5jzmKnqpe63JMrazC9BW.6IeU!/b&amp;bo=EwJ8AgAAAAADJ20!&amp;rf=viewer_4" alt="1615904336541"></p>
+<p><strong>业务分析</strong></p>
+<ul>
+<li>
+<p>仅分析购物车的redis存储模型</p>
+<p>添加，浏览，更改数量，删除，清空</p>
+</li>
+<li>
+<p>购物车与数据库间持久化同步（不讨论）</p>
+</li>
+<li>
+<p>购物车与订单间关系(不讨论)</p>
+<p>提交购物车： 读取数据生成订单</p>
+<p>商家临时价格调整： 隶属于订单级别</p>
+</li>
+<li>
+<p>未登录用户购物车信息存储（不讨论）</p>
+<p>cookie存储</p>
+</li>
+</ul>
+<p><strong>解决方案</strong></p>
+<ul>
+<li>以客户id作为key, 每位客户创建一个hash存储结构存储对应的购物车信息;</li>
+<li>将商品编号作为field, 购买数量作为value进行存储;</li>
+<li>添加商品， 追加全新的field与value；</li>
+<li>浏览： 遍历hash；</li>
+<li>更改数量: 自增 / 自减， 设置value值;</li>
+<li>删除商品： 删除field；</li>
+<li>清空: 删除key；</li>
+</ul>
+<p>当前仅仅是将数据存储到了redis， 并没有起到加速的作用， 商品的信息还需要二次到数据库中去查;</p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcQUo30ajEmJeKfpnh6K672hk*DDnQR8heKaghdViQ1HgmqFJnSE8Vea1SL8WU45gVQrc7RoDOzww8gcuQjvCl4c!/b&amp;bo=AwNGAQAAAAADJ0U!&amp;rf=viewer_4" alt="1615905166663"></p>
+<p>field2 应该单独拿出来作为商品的一个hash；会避免数据的重复存储;</p>
+<p><code>hsetnx key field value</code> 有值不加进去， 没有就加进去;</p>
+<p><strong>业务场景</strong></p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcb28SjSPh1vuQ4dSth57D99RHSp1Bjoew1u699*OR2CybSE2jxfLLb5PcVb8dK1vOz8FHDKYWhYr9mj*bZvKiz8!/b&amp;bo=zwO4AQAAAAADJ3c!&amp;rf=viewer_4" alt="1615905615997"><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcYBEloLhAhEAjcWwVimgAd78JJAPUEgUAnUeDF6gKsfNHcrSMYb6mVFi*Vg6dr1bKU64LwrBWE2cWMn7hAc.7RI!/b&amp;bo=nQH3AAAAAAADF1k!&amp;rf=viewer_4" alt="1615905645343"></p>
+<p>string存储对象（json）（读操作灵活）， 与hash存储对象 （更新操作灵活）</p>
+<h2 id="list数据类型">list数据类型</h2>
+<p>list类型</p>
+<ul>
+<li>数据存储要求： 存储多个数据，并对数据进入存储空间的顺序进行区分;</li>
+<li>需要的存储结构：一个存储空间保存多个数据，</li>
+<li>list类型： 保存多个数据，底层使用<strong>双向链表</strong>存储结构实现;</li>
+</ul>
+<p><strong>顺序表</strong></p>
+<p>头指针  huawei   tencent  alibaba  apple, 插入CNPC</p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcfXeYI4.31rYmKtbKpHViMbGLfBUFHsYcddrO83LuDhnL4r7iXd9yxwzWo61KEVnkcNmu4jVbywgRQ*UP9RuS18!/b&amp;bo=VARUAQAAAAADJwc!&amp;rf=viewer_4" alt="1616076949878"></p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcdv*4pyjCfTqzAvj4TeUsRM9qRYQj4WXTdkfMOeU*Q2VnW3CSbtFmBTlqjlSXuubb30B*KWPKM1KbETzR3IWuc4!/b&amp;bo=TgIQAQAAAAADF28!&amp;rf=viewer_4" alt="1616077053791"></p>
+<h3 id="list类型数据基本操作">list类型数据基本操作</h3>
+<ul>
+<li>
+<p>添加 / 修改数据</p>
+<p><code>lpush key value1 [value2] ...</code></p>
+</li>
+<li>
+<p>获取数据</p>
+<p><code>lrange key start stop</code></p>
+<p><code>lindex key index</code></p>
+<p><code>llen key</code></p>
+</li>
+<li>
+<p>删除数据</p>
+<p><code>lpop key</code></p>
+<p><code>rpop key</code></p>
+</li>
+</ul>
+<h3 id="list类型数据扩展操作">list类型数据扩展操作</h3>
+<ul>
+<li>
+<p>规定时间内获取并移除操作</p>
+<p><code>bpop key1 [key2] timeout</code></p>
+<p><code>bpop key1 [key2] timeout</code></p>
+<p>b是block的意思, 阻塞多少秒之后pop;</p>
+</li>
+</ul>
+<h3 id="list类型数据业务背景">list类型数据业务背景</h3>
+<p><strong>业务背景</strong></p>
+<p>微信朋友圈点赞， 要求按照点赞顺序显示点赞好友的信息;</p>
+<p>如果取消点赞，移除对应好友信息;</p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcWwNG31cgG7ffaCdgoYN1GKtbGtRjGDtHlB3huuJ2.e6Jb42iLFkIvc3FFdSSxJTT8KtmU.MZomJKM24jsFuRT0!/b&amp;bo=PQEFAgAAAAADJzk!&amp;rf=viewer_4" alt="1616078447626"></p>
+<p><strong>解决方案：</strong></p>
+<ul>
+<li>
+<p>移除指定数据</p>
+<p><code>lrem key count value</code></p>
+</li>
+</ul>
+<p><strong>Tips:</strong></p>
+<ul>
+<li>redis应用于具有操作先后顺序的数据控制</li>
+</ul>
+<p><strong>list类型数据操作注意事项</strong></p>
+<ul>
+<li>list保存的数据都是string类型的， 数据总容量是有限的， 最多2^32 -1个元素(4,294,967,295)</li>
+<li>list具有索引的概念， 但是操作数据时通常以队列的形式进行入队出队操作，或以栈的形式进行入栈出栈操作;</li>
+<li>获取全部数据操作结束索引设置为-1；</li>
+<li>list可以对数据进行分页操作，通常第一页的信息来自于list， 第2页及更多的信息通过数据库的形式加载;</li>
+</ul>
+<p><strong>业务场景</strong>：</p>
+<p>1.Twitter， 微博中个人用户的关注列表需要按照用户的关注顺序进行展示，粉丝列表需要将最近关注的粉丝列在前面;</p>
+<p>2.新闻， 资讯类网站如何将最近的新闻或资讯按照发生的时间顺序展示?</p>
+<p>3.企业运营过程中，系统将产生出大量的运营数据，如何保障多台服务器操作日志的统一顺序输出？</p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcQafjAnXApSJtXATbj2ZDmxFSk1zPztitabRQ9p1cPFyTGlrrzdyy5iZq1on8F3PC1pEcEQ4iDNPPFm9Iada56M!/b&amp;bo=QAMFAQAAAAADJ0U!&amp;rf=viewer_4" alt="1616079849353"></p>
+<p><strong>解决方案</strong></p>
+<ul>
+<li>依赖list的数据具有顺序的特征对信息进行管理</li>
+<li>使用队列模型解决多路信息汇总合并的问题</li>
+<li>使用栈模型解决最新消息的问题</li>
+</ul>
+<p><strong>Tips</strong>： redis应用于最新信息展示；</p>
+<h2 id="set数据类型">Set数据类型</h2>
+<ul>
+<li>
+<p>新的存储要求: 存储大量的数据， 在查询方面提供更高的效率；</p>
+</li>
+<li>
+<p>需要的存储结构： 能够保存大量的数据， 高效的内部存储机制， 便于查询;</p>
+</li>
+<li>
+<p>set类型：与hash存储结构完全相同，仅存储键， 不存储值nil， 并且值是不允许重复;</p>
+</li>
+</ul>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcXnhF9lsdif6emyCiHFqI9I*3roiBcm*p58IdhEipGdlAprbQ8XMd5W2OXXiBOQeCFIvN0qPtV9zlQ2PKZyID4Y!/b&amp;bo=RwJTAQAAAAADFyU!&amp;rf=viewer_4" alt="1616208198289"></p>
+<h3 id="set类型数据的基本操作">Set类型数据的基本操作</h3>
+<ul>
+<li>添加数据</li>
+</ul>
+<pre><code>sadd key member1 [member2]
+</code></pre><ul>
+<li>获取全部数据</li>
+</ul>
+<pre><code class="language-redis" data-lang="redis">smembers key
+</code></pre><ul>
+<li>删除数据</li>
+</ul>
+<pre><code class="language-redi" data-lang="redi">srem key member1 [member2]
+</code></pre><ul>
+<li>获取集合数据总量</li>
+</ul>
+<pre><code class="language-redis" data-lang="redis">scard key
+</code></pre><ul>
+<li>判断集合中是否包含指定数据</li>
+</ul>
+<pre><code>sismember key member
+</code></pre><h3 id="set类型数据扩展操作">Set类型数据扩展操作</h3>
+<p><strong>业务场景</strong></p>
+<p>每位用户首次使用今日头条时会设置3项爱好的内容， 但是后期为了增加用户的活跃度、兴趣点，必须让用户对其他信息类别逐渐产生兴趣，增加客户留存度， 如何实现？</p>
+<p><strong>业务分析</strong></p>
+<ul>
+<li>系统分析出各个分类的最新或最热点信息条目并组织成set集合；</li>
+<li>随机挑选其中的部分信息；</li>
+<li>配合用户关注信息分类中的热点信息组织成展示的全信息集合;</li>
+</ul>
+<p><strong>解决方案</strong></p>
+<ul>
+<li>
+<p>随机获取集合中指定数量的数据</p>
+<p><code>srandmember key [count]</code></p>
+</li>
+<li>
+<p>随机获取集合中的某个数据并将该数据移出集合</p>
+<p><code>spop key</code></p>
+</li>
+</ul>
+<p><strong>Tips8:</strong></p>
+<p>redis应用于随机推荐类信息检索， 例如热点歌单推荐，热点新闻推荐， 热卖旅游线路，应用APP推荐，大V推荐等</p>
+<p><strong>业务场景</strong></p>
+<p>脉脉为了促进用户间的交流， 保障业务成单率的提升， 需要让每位用户拥有大量的好友，事实上职场新人不具有更多的职场好友， 如何快速的为用户积累更多的好友？</p>
+<p>新浪微博为了增加用户的热度， 提高用户的留存性</p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mccgZHtD*IM0iyOD4iZrrhx8OT9GLaTkESJgtFNQuTHK0mbmRbeKLGzEWT2ahqnaz8g7NdvowcuDgo7xHBTFS8Dk!/b&amp;bo=owPyAQAAAAADN0E!&amp;rf=viewer_4" alt="1616212945415"></p>
+<p><strong>解决方案</strong></p>
+<ul>
+<li>
+<p>求两个集合的交， 并， 差集</p>
+<p><code>sinter key1 [key2]</code></p>
+<p><code>sunion key1 [key2]</code></p>
+<p><code>sdiff key1 [key2]</code></p>
+</li>
+<li>
+<p>求两个集合的交，并， 差集并存储到指定集合中</p>
+<p><code>sinterstore destination key1 [key2]</code></p>
+<p><code>sunionstore desitination key1 [key2]</code></p>
+<p><code>sdiffstore destination key1 [key2]</code></p>
+</li>
+<li>
+<p>将指定数据从原始集合移动到目标集合中</p>
+<p><code>smove souece destination member</code></p>
+</li>
+</ul>
+<p>Tips9:</p>
+<ul>
+<li>redis应用于同类信息的关联检索， 二度关联检索， 深度关联检索;</li>
+<li>显示共同关注（一度）</li>
+<li>显示共同好友（一度）</li>
+<li>由用户A出发， 获取到好友用户B的好友信息列表(一度)</li>
+<li>由用户A 出发， 获取到好友用户B的购物清单列表（二度）</li>
+<li>由用户A 出发， 获取到好友用户B的游戏充值列表（二度）</li>
+</ul>
+<p><strong>注意事项：</strong></p>
+<ul>
+<li>SEI类型不允许数据重复；</li>
+<li>set虽然与hash的存储结构相同，但是无法启用hash中存储的空间;</li>
+</ul>
+<h3 id="set型数据业务场景">Set型数据业务场景</h3>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcYZovcClZnsQD41WTFhDo2uwIouREPg5HrY4GYTKcL*ty0CsUyNqMUCgW7V44RDWo1rULC7LeS8vN.EeJiJ7C*g!/b&amp;bo=mQOEAAAAAAADFyw!&amp;rf=viewer_4" alt="1616233828683"></p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcYQQuS6sbOYocvxZL5Ul86sLHYQSepWwf6IZqVTa*CqthB6JiLI0j4sj8Ffb0ss2ExBx0kkcOlnLZkZhFoONLBI!/b&amp;bo=VQJvAQAAAAADJzs!&amp;rf=viewer_4" alt="1616233871263"></p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcfXeYI4.31rYmKtbKpHViMajAaJnMibN8y9UsElFhmauPTwUEFn2jXOqo9UQPXKzO0NSI.wxXoJB9JL6wSXSNfY!/b&amp;bo=FwPGAAAAAAADF.A!&amp;rf=viewer_4" alt="1616247155384"></p>
+<p><code>sadd rid:001 getall</code></p>
+<p><code>sadd rid:001 getById</code></p>
+<p><code>sadd rid:002 getCount</code></p>
+<p><code>sadd rid:002 getall</code></p>
+<p><code>sadd rid:002 insert</code></p>
+<p><code>sunionstore uid:007 rid:001 rid:002</code></p>
+<p><code>sismembers uid:007 insert</code></p>
+<p>redis应当是提供基础数据， 而不要提供检验结果（含业务逻辑， 业务逻辑应该放在调用端去实现）；</p>
+<p><strong>Tip10:</strong></p>
+<p>redis应用于同类型 不重复数据的合并操作;</p>
+<p><strong>业务场景</strong></p>
+<p>公司对旗下新的网站做推广，统计网站的PV(访问量)， UV（独立访客），IP（独立IP）。</p>
+<p>PV： 网站被访问次数， 可通过刷新页面提高访问量;</p>
+<p>UV:  网站被不同用户访问的次数， 可通过Cookie统计访问量， 相同用户切换IP地址， UV不变；</p>
+<p>IP： 网站被不同IP地址访问的总次数， 可通过IP地址统计访问量， 相同IP不同用户访问， IP不变;</p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcQUo30ajEmJeKfpnh6K672jCV9Vej6N2endT36k3lz0TIzq0HT7fFPbs2XVf4I2XuxhZAaJuhqc*b3yc4XPousw!/b&amp;bo=zwHHAAAAAAADFzs!&amp;rf=viewer_4" alt="1616248456441"></p>
+<p><strong>Tips:</strong></p>
+<p>redis应用于同类型数据的快速去重;</p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcTpqWuFHUBJTOWN6Nkszplbm7.SVMH9kQEDpu6slGZkRDXjZVS2xNYw6BU9oFmP2HbidjYbdN692GdxaJG5a8Bo!/b&amp;bo=kAPWAQAAAAADN1Y!&amp;rf=viewer_4" alt="1616248591852"></p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcZYNrC2dVlUUTerRKLHYXF*VlTl7gtX4ZS3wSeCKvpY5zKCmyoheE8lrZEe3UsEtEVf4sTXOhkfzgJykJ9vm*LE!/b&amp;bo=8QEHAQAAAAADJ*Q!&amp;rf=viewer_4" alt="1616248722257"></p>
+<p>Tips12: redis应用于基于黑名单和白名单的设定限制;</p>
+<h2 id="sorted_set类型">sorted_set类型</h2>
+<ul>
+<li>新的存储需求： 数据排序有利于数据的有效展示，需要提供一种可以根据自身特征进行排序的方式;</li>
+<li>需要的存储结构：新的存储模型， 可以保存可排序的数据;</li>
+<li>sorted_set类型： 在set的存储结构基础上添加可排序字段</li>
+</ul>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcZM98E76J2BI.79ATQN9b.N7rdedapjC.5ckKOfr8lXGH20l.Sa.JvFSGjzw4KXvIDygj1LVKmlWrHEFhhq5v50!/b&amp;bo=pgIKAQAAAAADF50!&amp;rf=viewer_4" alt="1616249237405"></p>
+<h3 id="sorted_set类型数据的基本操作">sorted_set类型数据的基本操作</h3>
+<ul>
+<li>添加数据</li>
+</ul>
+<pre><code>zadd key score1 member1 [score2 member2]
+</code></pre><ul>
+<li>获取全部数据</li>
+</ul>
+<pre><code class="language-redis" data-lang="redis">zrange key start stop [WITHSCORES]
+zrevrange key start stop [WITHSCORES]
+</code></pre><ul>
+<li>删除数据</li>
+</ul>
+<pre><code class="language-redi" data-lang="redi">zrem key member [member...]
+</code></pre><ul>
+<li>按条件获取数据</li>
+</ul>
+<pre><code>zrangebyscore key min max [WITHSCOES] [LIMIT]
+zreverangebyscore key min max [WITHSCOES]
+</code></pre><ul>
+<li>条件删除数据</li>
+</ul>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C#" data-lang="C#">zremrangebyrank key start stop
+zremrangebyscore key min max
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>min与max用于限定搜索查询的条件;</p>
+<p>start与stop用于限定查询范围， 作用域索引， 表示开始和结束索引;</p>
+<p>offset与count用于限定查询范围(limit)， 作用于查询结果， 表示开始位置和数据总量;</p>
+</blockquote>
+<ul>
+<li>
+<p>获取集合数据总量</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">zcard key
+zcount key min max
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>集合交，并操作</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">zinterstore destination numkeys key <span style="color:#000;font-weight:bold">[</span>key ...<span style="color:#000;font-weight:bold">]</span>
+zunionstore destination numkeys key <span style="color:#000;font-weight:bold">[</span>key ...<span style="color:#000;font-weight:bold">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcWp5.5BzlMKZ4kOlHNpSPlqZpOX454xj1DbSGVlxyCuFS2qeaWgQtV4o*j6VyzGojl8n8uT*4F4f1xPdMOxWYmU!/b&amp;bo=cgKMAQAAAAADJ*8!&amp;rf=viewer_4" alt="1616419839622"></p>
+</li>
+</ul>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcWp5.5BzlMKZ4kOlHNpSPlqZpOX454xj1DbSGVlxyCuFS2qeaWgQtV4o*j6VyzGojlHCbafNsovtmzlOyFAc0Ww!/b&amp;bo=cgKMAQAAAAADJ*8!&amp;rf=viewer_4" alt="1616419882199"></p>
+<h3 id="sorted_set类型数据扩展操作">sorted_set类型数据扩展操作</h3>
+<p><strong>业务场景</strong></p>
+<p>票选广东十大杰出青年， 各类综艺选秀海选投票，各类资源网站TOp10（电影， 歌曲，文档，电商，游戏等），聊天室活跃度统计，游戏好友亲密度等</p>
+<p><strong>业务分析</strong></p>
+<ul>
+<li>为所有参与排名的资源建立排序资源</li>
+</ul>
+<p><strong>解决方案</strong></p>
+<ul>
+<li>获取数据对应的索引(排名)</li>
+</ul>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">zrank key member
+zrevrank key member
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>score值获取与修改</li>
+</ul>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">zscore key member
+zincrby key increment member
+</code></pre></td></tr></table>
+</div>
+</div><p>**Tips：**redis应用于计数器组合排序功能的排名</p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcbKSiBC*5qS3BPInf0owb4kzGuUygZjh3Cwu5ZqwiwmrQpsryuVIB6wB9bK15n3QyO*z7wj.CevM7t2AovTn8b4!/b&amp;bo=kgM1AQAAAAADJ6c!&amp;rf=viewer_4" alt="1616420622508"></p>
+<p><strong>业务场景</strong></p>
+<p>​	基础服务+增值服务类网站会设定各位会员的试用，让用户充分体验会员优势。例如观影试用VIP， 游戏VIP体验， 云盘下载体验VIP， 数据查看体验VIP。当VIP体验到期后，如何有效管理此类信息。 即便对于正式VIP用户也存在对应的管理方式。</p>
+<p>​	网站会定期开启投票、讨论，限时进行，逾期作废。如何有效管理此类过期信息;</p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mccVZcdjpKml1Nf78YJmDy2.1oA4UmyCPs6QZ.QVcMo1lOkzdX8*v6PXEd1.mY.WW4SL.zGYSr6VCDISGbdPO9Zk!/b&amp;bo=kgP3AAAAAAADJ2Q!&amp;rf=viewer_4" alt="1616421196330"></p>
+<p><strong>Tip14:</strong>  redis应用于定时任务执行顺序管理或任务过期管理;</p>
+<h3 id="sorted_set数据业务场景">sorted_set数据业务场景</h3>
+<p><strong>任务 / 消息权重设定应用</strong></p>
+<p>当任务或者消息待处理， 形成了任务队列或者消息队列时， 对于高优先级的任务要保障对其优先处理， 如何实现任务权重管理;</p>
+<p><strong>解决方案</strong></p>
+<p>对于带权重的任务， 优先处理权重高的任务，采用score记录权重即可；</p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcYkyXIY9fwXVUwtKoUe2fx8AZTqiVk.e5P7zmjIB0fzb8p*LCcH*gcdPN9C7L5ozHgVSitvsRB6GupUzXD6MxKw!/b&amp;bo=ZQKJAQAAAAADJ.0!&amp;rf=viewer_4" alt="1616421976326"></p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcb9eaSlMu7v25seWotI*yMOhaKWT5EgLORdzZp61REhxVtpcIQb7qtV0a4DrjMdMOOSx*62NJobITo*mkkylBCI!/b&amp;bo=pgNeAQAAAAADN.g!&amp;rf=viewer_4" alt="1616422064144"></p>
+<h2 id="数据实践案例">数据实践案例</h2>
+<h3 id="场景一">场景一</h3>
+<p><strong>业务场景</strong></p>
+<p>人工智能领域的语义识别与自动对话将是未来服务业机器人应答呼叫体系中的重要技术，百度自研用户评价语义识别服务， 免费开放给企业试用， 同时训练百度自己的模型。现对试用用户的使用行为进行限速， 限制每个用户每分钟最多发起10次调用;</p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcVCAWFETsg66BpauXOz8e1qXlz9XH5X0qHPOc2X*oodWmgdqtParzCa6Du6xsc6ck3vxRoxJsIvdmdjs7DF.9QY!/b&amp;bo=WwMDAQAAAAADJ1g!&amp;rf=viewer_4" alt="1616838534931"></p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcZM98E76J2BI.79ATQN9b.PyVSRI.uW.kf2xWUkDFBlWa38kqMujrSqyrivEpPBHPTZPIZ.f*rFNpCRSO17lWOU!/b&amp;bo=sgMNAQAAAAADF48!&amp;rf=viewer_4" alt="1616838851843"></p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcXnhF9lsdif6emyCiHFqI9K3EWax5r3D2Wha7UZzUD6XLGXJBhtEkEot29znoVgdRq.vD4psLIbAuvHCqeCMyfg!/b&amp;bo=JwMVAQAAAAADFwI!&amp;rf=viewer_4" alt="1616839016536"></p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcWP.spEL3g*MeEXoyAMU1zd9SOqu77CuSihS7kpGrvHWLnPHKQjj3wpbf7D4njsaGFRpiucvfVoBfdvcHLOjcu0!/b&amp;bo=*wMJAQAAAAADF8Y!&amp;rf=viewer_4" alt="1616839071304"></p>
+<p><strong>tips</strong> : redis应用于限时按次结算的服务控制</p>
+<h3 id="场景二">场景二</h3>
+<p>微信会话的顺序（消息应该是按什么顺序？）</p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcTDVR0HO5KZJAAwSW3vgf91I6pXhRMxEZjHQKN1efqnwpJjmbnH261*j77p08boST1cuGLde0MhFzbbcZ82tANU!/b&amp;bo=nQOqAAAAAAADFwY!&amp;rf=viewer_4" alt="1616839376253"></p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcYQQuS6sbOYocvxZL5Ul86sMkRjSiZwCajXgRuVaVL1HMmXhrhXY6M5PcKuCbxaqX8PIu1nOUWZNiEjbuzqcZKQ!/b&amp;bo=LQTdAQAAAAADJ*c!&amp;rf=viewer_4" alt="1616839614981"></p>
+<p><img src="http://m.qpic.cn/psc?/V51iBgVW47ZN4r3Xp0p23muz7m49bhbj/45NBuzDIW489QBoVep5mcdbcJOR8Vb7U5lQF2.mMPwUSoP19qmdBpz81ylmoQUnxAGpfP.59UbF9ZBlxdypZ36fIZ6*oegHq20Wed95vOJk!/b&amp;bo=kQMRAQAAAAADJ4A!&amp;rf=viewer_4" alt="1616839871683"></p>
+<p><strong>Tips17</strong>: redis应用于基于时间顺序的数据操作， 而不关注具体时间;</p>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">bomir</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2020-05-12
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://bomir.github.io/tags/redis/">redis</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/net-core-startup_class/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">.netcore之Startup类</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/postman-learning/">
+            <span class="next-text nav-default">Postman使用教程</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:jinchunw@385@gmail.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://github.com/Bicomir" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+
+
+<a href="https://bomir.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2017 -
+    2021
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        bomir
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

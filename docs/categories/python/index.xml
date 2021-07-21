@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on Wallis</title>
+    <link>https://bomir.github.io/categories/python/</link>
+    <description>Recent content in Python on Wallis</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 08 Aug 2019 14:45:16 +0000</lastBuildDate><atom:link href="https://bomir.github.io/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python常见题</title>
+      <link>https://bomir.github.io/post/python-common-questions/</link>
+      <pubDate>Thu, 08 Aug 2019 14:45:16 +0000</pubDate>
+      
+      <guid>https://bomir.github.io/post/python-common-questions/</guid>
+      <description>(1)Python常见面试题1 1.Python是如何进行内存管理的？ 三个方面来回答这个问题； ①对象的引用计数机制 ②垃圾回收机制 ③内存池机制 (</description>
+    </item>
+    
+    <item>
+      <title>浅谈Tornado</title>
+      <link>https://bomir.github.io/post/basic-tornado/</link>
+      <pubDate>Wed, 03 Jul 2019 17:51:08 +0000</pubDate>
+      
+      <guid>https://bomir.github.io/post/basic-tornado/</guid>
+      <description>高并发处理框架—Tornado Tornado介绍 ​ Tornado是一个可扩展的非阻塞式Web服务器及其相关工具的开源版本。Tornado每秒</description>
+    </item>
+    
+    <item>
+      <title>web服务器纵览</title>
+      <link>https://bomir.github.io/post/web-servers-choose/</link>
+      <pubDate>Mon, 18 Mar 2019 19:21:41 +0000</pubDate>
+      
+      <guid>https://bomir.github.io/post/web-servers-choose/</guid>
+      <description>web框架概览 1）网络框架及MVC架构 ​ MVC是软件工程中的一种软件架构设计模式，MVC把web应用系统分为如下3个基本部分：模型、视图、控</description>
+    </item>
+    
+    <item>
+      <title>Scrapy简单学习</title>
+      <link>https://bomir.github.io/post/scrapy-simple-learning/</link>
+      <pubDate>Sat, 12 Jan 2019 14:45:16 +0000</pubDate>
+      
+      <guid>https://bomir.github.io/post/scrapy-simple-learning/</guid>
+      <description>MongoDB的安装与配置 Win10下Mongodb4.0的安装与配置 不用scrapy时的数据抓取 Urllib或requests 封装http</description>
+    </item>
+    
+    <item>
+      <title>Python多线程</title>
+      <link>https://bomir.github.io/post/python-multithread/</link>
+      <pubDate>Tue, 16 Oct 2018 14:45:16 +0000</pubDate>
+      
+      <guid>https://bomir.github.io/post/python-multithread/</guid>
+      <description>Python多线程 同步和异步概念和区别 ​ 我们经常会看到同步、异步、阻塞、非阻塞四种调用方式以及它们的组合。那同步和异步的概念和区别又是什么呢</description>
+    </item>
+    
+  </channel>
+</rss>

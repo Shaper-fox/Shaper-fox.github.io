@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CSharp on Wallis</title>
+    <link>https://Shaper-fox.github.io/tags/csharp/</link>
+    <description>Recent content in CSharp on Wallis</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 24 Aug 2019 22:19:05 +0000</lastBuildDate><atom:link href="https://Shaper-fox.github.io/tags/csharp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C#语法回顾I</title>
+      <link>https://Shaper-fox.github.io/post/csharp-basic/</link>
+      <pubDate>Sat, 24 Aug 2019 22:19:05 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/post/csharp-basic/</guid>
+      <description>C# 重载与重写 基本定义 构造函数： 构造函数是一种特殊的方法，主要用来创建对象时初始化对象，即为对象成员变量赋初始值，总与new运算符一起使用再创</description>
+    </item>
+    
+  </channel>
+</rss>

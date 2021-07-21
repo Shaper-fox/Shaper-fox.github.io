@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://Shaper-fox.github.io/sitemap.xml

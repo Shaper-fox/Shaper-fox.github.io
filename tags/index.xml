@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Wallis</title>
+    <link>https://Shaper-fox.github.io/tags/</link>
+    <description>Recent content in Tags on Wallis</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 12 Feb 2021 21:19:05 +0000</lastBuildDate><atom:link href="https://Shaper-fox.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>docker</title>
+      <link>https://Shaper-fox.github.io/tags/docker/</link>
+      <pubDate>Fri, 12 Feb 2021 21:19:05 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>redis</title>
+      <link>https://Shaper-fox.github.io/tags/redis/</link>
+      <pubDate>Tue, 12 Jan 2021 21:19:05 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/redis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>设计模式</title>
+      <link>https://Shaper-fox.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 15 Oct 2020 20:51:05 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>微服务</title>
+      <link>https://Shaper-fox.github.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/</link>
+      <pubDate>Fri, 25 Sep 2020 22:19:05 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mysql</title>
+      <link>https://Shaper-fox.github.io/tags/mysql/</link>
+      <pubDate>Sun, 12 Jul 2020 22:19:05 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/mysql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>.netcore</title>
+      <link>https://Shaper-fox.github.io/tags/.netcore/</link>
+      <pubDate>Sun, 28 Jun 2020 22:19:05 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/.netcore/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>postman</title>
+      <link>https://Shaper-fox.github.io/tags/postman/</link>
+      <pubDate>Wed, 11 Sep 2019 22:01:57 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/postman/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>http</title>
+      <link>https://Shaper-fox.github.io/tags/http/</link>
+      <pubDate>Mon, 26 Aug 2019 22:29:54 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/http/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CSharp</title>
+      <link>https://Shaper-fox.github.io/tags/csharp/</link>
+      <pubDate>Sat, 24 Aug 2019 22:19:05 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/csharp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>restful api</title>
+      <link>https://Shaper-fox.github.io/tags/restful-api/</link>
+      <pubDate>Tue, 20 Aug 2019 22:48:50 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/restful-api/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Fiddler</title>
+      <link>https://Shaper-fox.github.io/tags/fiddler/</link>
+      <pubDate>Sat, 17 Aug 2019 21:03:54 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/fiddler/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>面试题</title>
+      <link>https://Shaper-fox.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/</link>
+      <pubDate>Thu, 08 Aug 2019 14:45:16 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tornado</title>
+      <link>https://Shaper-fox.github.io/tags/tornado/</link>
+      <pubDate>Wed, 03 Jul 2019 17:51:08 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/tornado/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>web server</title>
+      <link>https://Shaper-fox.github.io/tags/web-server/</link>
+      <pubDate>Mon, 18 Mar 2019 19:21:41 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/web-server/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>spider</title>
+      <link>https://Shaper-fox.github.io/tags/spider/</link>
+      <pubDate>Sat, 12 Jan 2019 14:45:16 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/spider/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>多线程</title>
+      <link>https://Shaper-fox.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</link>
+      <pubDate>Tue, 16 Oct 2018 14:45:16 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ML</title>
+      <link>https://Shaper-fox.github.io/tags/ml/</link>
+      <pubDate>Wed, 15 Aug 2018 22:02:14 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/ml/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>前端</title>
+      <link>https://Shaper-fox.github.io/tags/%E5%89%8D%E7%AB%AF/</link>
+      <pubDate>Sun, 06 May 2018 17:17:14 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/%E5%89%8D%E7%AB%AF/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>git</title>
+      <link>https://Shaper-fox.github.io/tags/git/</link>
+      <pubDate>Tue, 17 Oct 2017 22:01:14 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/git/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>markdown</title>
+      <link>https://Shaper-fox.github.io/tags/markdown/</link>
+      <pubDate>Mon, 08 May 2017 10:49:51 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/tags/markdown/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

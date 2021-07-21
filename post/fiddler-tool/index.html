@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Fiddler抓包工具总结 - Wallis</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="bomir" />
+  <meta name="description" content="Fiddler介绍 Fiddler（中文名称：小提琴）是一个HTTP的调试代理，以代理服务器的方式，监听系统的Http网络数据流动，Fiddl" />
+
+  <meta name="keywords" content="Hugo, theme, jane" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0" />
+
+
+<link rel="canonical" href="https://Shaper-fox.github.io/post/fiddler-tool/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.b3a8813c06e6d785beba22bf8264e174fa2cb3a396b22f9ba24e2c00c18aaf7f.css" integrity="sha256-s6iBPAbm14W&#43;uiK/gmThdPoss6OWsi&#43;bok4sAMGKr38=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="Fiddler抓包工具总结" />
+<meta property="og:description" content="Fiddler介绍 Fiddler（中文名称：小提琴）是一个HTTP的调试代理，以代理服务器的方式，监听系统的Http网络数据流动，Fiddl" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Shaper-fox.github.io/post/fiddler-tool/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-08-17T21:03:54+00:00" />
+<meta property="article:modified_time" content="2019-08-17T21:03:54+00:00" />
+
+<meta itemprop="name" content="Fiddler抓包工具总结">
+<meta itemprop="description" content="Fiddler介绍 Fiddler（中文名称：小提琴）是一个HTTP的调试代理，以代理服务器的方式，监听系统的Http网络数据流动，Fiddl"><meta itemprop="datePublished" content="2019-08-17T21:03:54+00:00" />
+<meta itemprop="dateModified" content="2019-08-17T21:03:54+00:00" />
+<meta itemprop="wordCount" content="7655">
+<meta itemprop="keywords" content="Fiddler," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Fiddler抓包工具总结"/>
+<meta name="twitter:description" content="Fiddler介绍 Fiddler（中文名称：小提琴）是一个HTTP的调试代理，以代理服务器的方式，监听系统的Http网络数据流动，Fiddl"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">秤流沙</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://Shaper-fox.github.io/">首页</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://Shaper-fox.github.io/post/">归档</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://Shaper-fox.github.io/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://Shaper-fox.github.io/categories/">分类</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://Shaper-fox.github.io/about/">关于我</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/Bicomir" rel="noopener" target="_blank">
+              Github
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      秤流沙
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://Shaper-fox.github.io/">首页</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://Shaper-fox.github.io/post/">归档</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://Shaper-fox.github.io/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://Shaper-fox.github.io/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://Shaper-fox.github.io/about/">关于我</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/Bicomir" rel="noopener" target="_blank">
+              Github
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Fiddler抓包工具总结</h1>
+      
+      <div class="post-meta">
+        <time datetime="2019-08-17" class="post-time">
+          2019-08-17
+        </time>
+        <div class="post-category">
+            <a href="https://Shaper-fox.github.io/categories/tools/"> tools </a>
+            
+          </div>
+        <span class="more-meta"> 约 7655 字 </span>
+          <span class="more-meta"> 预计阅读 16 分钟 </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#fiddler介绍">Fiddler介绍</a></li>
+        <li><a href="#参考文献">参考文献</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <h3 id="fiddler介绍">Fiddler介绍</h3>
+<p>Fiddler（中文名称：小提琴）是一个HTTP的调试代理，以代理服务器的方式，监听系统的Http网络数据流动，Fiddler可以也可以让你检查所有的HTTP通讯，设置断点，以及Fiddle所有的“进出”的数据（我一般用来抓包）,Fiddler还包含一个简单却功能强大的基于JScript .NET事件脚本子系统，它可以支持众多的HTTP调试任务。</p>
+<p>Fiddler官方网站提供了大量的帮助文档和视频教程,这是学习Fiddler的最好资料。</p>
+<ul>
+<li><a href="https://link.jianshu.com/?t=http://www.telerik.com/fiddler">Fiddler_官方网站</a></li>
+<li><a href="https://link.jianshu.com/?t=http://docs.telerik.com/fiddler/configure-fiddler/tasks/configurefiddler">Fiddler_官方文档</a></li>
+<li><a href="https://link.jianshu.com/?t=https://www.youtube.com/playlist?list=PLvmaC-XMqeBbw72l2G7FG7CntDTErjbHc">Fiddler_官方视频</a></li>
+<li><a href="https://link.jianshu.com/?t=http://www.telerik.com/fiddler/add-ons">Fiddler_官方插件</a></li>
+</ul>
+<h4 id="工作原理">工作原理</h4>
+<p><a href="https://imgtu.com/i/WwNIc8"><img src="https://z3.ax1x.com/2021/07/21/WwNIc8.jpg" alt="WwNIc8.jpg"></a></p>
+<p>其工作原理是，Fiddler是以代理WEB服务器的形式工作的,浏览器与服务器之间通过建立TCP连接以HTTP协议进行通信，浏览器默认通过自己发送HTTP请求到服务器，它使用代理地址:127.0.0.1, 端口:8888. 当Fiddler开启会自动设置代理， 退出的时候它会自动注销代理，这样就不会影响别的程序。不过如果Fiddler非正常退出，这时候因为Fiddler没有自动注销，会造成网页无法访问。解决的办法是重新启动下Fiddler。</p>
+<h5 id="http协议简介">HTTP协议简介</h5>
+<p>​	<strong>什么是HTTP协议</strong></p>
+<p>​	一般协议是指计算机通信网络中两台计算机之间进行通信所必须共同遵守的规定或规则，超文本传输协议(HTTP)是一种通信协议，它允许将超文本标记语言(HTML)文档从Web服务器传送到客户端的浏览器，目前我们使用的是HTTP/1.1 版本。</p>
+<p>​	<strong>URL详解</strong></p>
+<p>​	URL(Uniform Resource Locator)地址用于描述一个网络上的资源, 基本格式如下：</p>
+<p>​    <code>schema://host[:port#]/path/.../[?query-string][#anchor]</code></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">scheme</td>
+<td style="text-align:center">指定低层使用的协议(例如：http, https, ftp)</td>
+</tr>
+<tr>
+<td style="text-align:center">host</td>
+<td style="text-align:center">HTTP服务器的IP地址或者域名</td>
+</tr>
+<tr>
+<td style="text-align:center">port#</td>
+<td style="text-align:center">HTTP服务器的默认端口是80，这种情况下端口号可以省略。如果使用了别的端口，必须指明，例如 <a href="http://www.test.com:8080/">http://www.test.com:8080/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">path</td>
+<td style="text-align:center">访问资源的路径</td>
+</tr>
+<tr>
+<td style="text-align:center">query-string</td>
+<td style="text-align:center">发送给http服务器的数据</td>
+</tr>
+<tr>
+<td style="text-align:center">anchor</td>
+<td style="text-align:center">锚</td>
+</tr>
+</tbody>
+</table>
+<p><strong>HTTP消息的结构</strong></p>
+<ul>
+<li>Request</li>
+</ul>
+<p><a href="https://imgtu.com/i/WwNx3V"><img src="https://z3.ax1x.com/2021/07/21/WwNx3V.jpg" alt="WwNx3V.jpg"></a></p>
+<p>先看Request 消息的结构, Request 消息分为3部分，第一部分叫Request line, 第二部分叫Request header, 第三部分是body. header和body之间有个空行.</p>
+<p>第一行中的Method表示请求方法,比如&quot;POST&quot;,&ldquo;GET&rdquo;, Path-to-resoure表示请求的资源， Http/version-number 表示HTTP协议的版本号,当使用的是&quot;GET&quot; 方法的时候， body是为空的.</p>
+<p><a href="https://imgtu.com/i/WwUFE9"><img src="https://z3.ax1x.com/2021/07/21/WwUFE9.jpg" alt="WwUFE9.jpg"></a></p>
+<ul>
+<li>Response</li>
+</ul>
+<p><a href="https://imgtu.com/i/WwUuuD"><img src="https://z3.ax1x.com/2021/07/21/WwUuuD.jpg" alt="WwUuuD.jpg"></a></p>
+<p>再看Response消息的结构, 和Request消息的结构基本一样。 同样也分为三部分,第一部分叫Response line, 第二部分叫Response header，第三部分是body. header和body之间也有个空行.</p>
+<p><a href="https://imgtu.com/i/WwUYgf"><img src="https://z3.ax1x.com/2021/07/21/WwUYgf.jpg" alt="WwUYgf.jpg"></a></p>
+<h5 id="常见状态码">常见状态码</h5>
+<p>Response 消息中的第一行叫做状态行，由HTTP协议版本号， 状态码， 状态消息 三部分组成。
+状态码用来告诉HTTP客户端,HTTP服务器是否产生了预期的Response.
+HTTP/1.1中定义了5类状态码， 状态码由三位数字组成，第一个数字定义了响应的类别。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">状态码</th>
+<th style="text-align:center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1XX</td>
+<td style="text-align:center">提示信息，表示请求已被成功接收，继续处理</td>
+</tr>
+<tr>
+<td style="text-align:center">2XX</td>
+<td style="text-align:center">成功，表示请求已被成功接收，理解，接受</td>
+</tr>
+<tr>
+<td style="text-align:center">3XX</td>
+<td style="text-align:center">重定向，要完成请求必须进行更进一步的处理</td>
+</tr>
+<tr>
+<td style="text-align:center">4XX</td>
+<td style="text-align:center">客户端错误，请求有语法错误或请求无法实现</td>
+</tr>
+<tr>
+<td style="text-align:center">5XX</td>
+<td style="text-align:center">服务器端错误，服务器未能实现合法的请求</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>200 OK</li>
+</ul>
+<p>最常见的就是成功响应状态码200了， 这表明该请求被成功地完成，所请求的资源发送回客户端</p>
+<ul>
+<li>302 Found</li>
+</ul>
+<p>重定向，新的URL会在response 中的Location中返回，浏览器将会自动使用新的URL发出新的Request.例如在IE中输入， <a href="http://www.google.com">http://www.google.com</a>. HTTP服务器会返回302， IE取到Response中Location header的新URL, 又重新发送了一个Request.</p>
+<p><a href="https://imgtu.com/i/WwU0Ej"><img src="https://z3.ax1x.com/2021/07/21/WwU0Ej.jpg" alt="WwU0Ej.jpg"></a></p>
+<ul>
+<li>304 Not Modified</li>
+</ul>
+<p>代表上次的文档已经被缓存了， 还可以继续使用，例如打开博客园首页, 发现很多Response 的status code 都是304
+[提示：　如果你不想使用本地缓存可以用Ctrl+F5 强制刷新页面]</p>
+<p><a href="https://imgtu.com/i/WwU62V"><img src="https://z3.ax1x.com/2021/07/21/WwU62V.jpg" alt="WwU62V.jpg"></a></p>
+<ul>
+<li>400 Bad Request 客户端请求与语法错误，不能被服务器所理解</li>
+<li>403 Forbidden 服务器收到请求，但是拒绝提供服务</li>
+<li>404 Not Found</li>
+</ul>
+<p><a href="https://imgtu.com/i/WwU4a9"><img src="https://z3.ax1x.com/2021/07/21/WwU4a9.jpg" alt="WwU4a9.jpg"></a></p>
+<ul>
+<li>500 Internal Server Error 服务器发生了不可预期的错误</li>
+<li>503 Server Unavailable 服务器当前不能处理客户端的请求，一段时间后可能恢复正常</li>
+</ul>
+<h4 id="主界面">主界面</h4>
+<p>Fiddler的主界面分为 工具面板、会话面板、监控面板、状态面板，下面进行逐一进行介绍。</p>
+<h5 id="工具面板">工具面板</h5>
+<p><a href="https://imgtu.com/i/WwUqKO"><img src="https://z3.ax1x.com/2021/07/21/WwUqKO.jpg" alt="WwUqKO.jpg"></a></p>
+<ul>
+<li>说明</li>
+</ul>
+<p>注释、重新请求、删除会话、继续执行、流模式/缓冲模式、解码、保留会话、监控指定进程、寻找、保存会话、切图、计时、打开浏览器、清除IE缓存、编码/解码工具、弹出控制监控面板、MSDN、帮助</p>
+<ul>
+<li>两种模式</li>
+</ul>
+<p>分为缓冲模式和流模式这两种。</p>
+<p><strong>缓冲模式(Buffering Mode)</strong></p>
+<p>Fiddler直到HTTP响应完成时才将数据返回给应用程序。可以控制响应，修改响应数据。但是时序图有时候会出现异常.</p>
+<p><strong>流模式(Streaming Mode)</strong></p>
+<p>Fiddler会即时将HTTP响应的数据返回给应用程序。更接近真实浏览器的性能。时序图更准确。但是不能控制响应.</p>
+<p><a href="https://imgtu.com/i/WwUxIA"><img src="https://z3.ax1x.com/2021/07/21/WwUxIA.jpg" alt="WwUxIA.jpg"></a></p>
+<h5 id="会话面板">会话面板</h5>
+<p><a href="https://imgtu.com/i/WwaURx"><img src="https://z3.ax1x.com/2021/07/21/WwaURx.png" alt="WwaURx.png"></a></p>
+<p>下面是会话面板横栏的含义：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">#</td>
+<td style="text-align:center">抓取HTTP Request的顺序，从1开始，以此递增</td>
+</tr>
+<tr>
+<td style="text-align:center">Result</td>
+<td style="text-align:center">HTTP状态码</td>
+</tr>
+<tr>
+<td style="text-align:center">Protocol</td>
+<td style="text-align:center">请求使用的协议，如HTTP/HTTPS/FTP等</td>
+</tr>
+<tr>
+<td style="text-align:center">Host</td>
+<td style="text-align:center">请求地址的主机名</td>
+</tr>
+<tr>
+<td style="text-align:center">URL</td>
+<td style="text-align:center">请求资源的位置</td>
+</tr>
+<tr>
+<td style="text-align:center">Body</td>
+<td style="text-align:center">该请求的大小</td>
+</tr>
+<tr>
+<td style="text-align:center">Caching</td>
+<td style="text-align:center">请求的缓存过期时间或者缓存控制值</td>
+</tr>
+<tr>
+<td style="text-align:center">Content-Type</td>
+<td style="text-align:center">请求响应的类型</td>
+</tr>
+<tr>
+<td style="text-align:center">Process</td>
+<td style="text-align:center">发送此请求的进程：进程ID</td>
+</tr>
+<tr>
+<td style="text-align:center">Comments</td>
+<td style="text-align:center">允许用户为此回话添加备注</td>
+</tr>
+<tr>
+<td style="text-align:center">Custom</td>
+<td style="text-align:center">允许用户设置自定义值</td>
+</tr>
+</tbody>
+</table>
+<p>会话面板左侧栏的图标含义：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">图标</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234159468-1047137951.gif" alt=""></td>
+<td style="text-align:center">请求已经发往服务器</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234200047-1757509080.gif" alt=""></td>
+<td style="text-align:center">已从服务器下载响应结果</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234201406-1416873112.gif" alt=""></td>
+<td style="text-align:center">请求从断点处暂停</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234202375-1737717316.gif" alt=""></td>
+<td style="text-align:center">响应从断点处暂停</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234202812-1354392122.gif" alt=""></td>
+<td style="text-align:center">请求使用 HTTP 的 HEAD 方法，即响应没有内容（Body）</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234203515-1304170577.png" alt=""></td>
+<td style="text-align:center">请求使用 HTTP 的 POST 方法</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234204531-965189067.gif" alt=""></td>
+<td style="text-align:center">请求使用 HTTP 的 CONNECT 方法，使用 HTTPS 协议建立连接隧道</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234205547-1927498766.gif" alt=""></td>
+<td style="text-align:center">响应是 HTML 格式</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234206203-722749081.gif" alt=""></td>
+<td style="text-align:center">响应是一张图片</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234207000-575730385.gif" alt=""></td>
+<td style="text-align:center">响应是脚本格式</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234207625-740567358.gif" alt=""></td>
+<td style="text-align:center">响应是 CSS 格式</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234208297-916097140.gif" alt=""></td>
+<td style="text-align:center">响应是 XML 格式</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234209640-1298497869.png" alt=""></td>
+<td style="text-align:center">响应是 JSON 格式</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234210172-1709733575.png" alt=""></td>
+<td style="text-align:center">响应是一个音频文件</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234210703-1810906238.png" alt=""></td>
+<td style="text-align:center">响应是一个视频文件</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234211297-1181901939.png" alt=""></td>
+<td style="text-align:center">响应是一个 SilverLight</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234213515-1617989240.png" alt=""></td>
+<td style="text-align:center">响应是一个 FLASH</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234214140-838447913.png" alt=""></td>
+<td style="text-align:center">响应是一个字体</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234214828-810550242.gif" alt=""></td>
+<td style="text-align:center">普通响应成功</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234215406-1088186512.gif" alt=""></td>
+<td style="text-align:center">响应是 HTTP/300、301、302、303 或 307 重定向</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234216015-2008519780.gif" alt=""></td>
+<td style="text-align:center">响应是 HTTP/304（无变更）：使用缓存文件</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234216531-1803780843.gif" alt=""></td>
+<td style="text-align:center">响应需要客户端证书验证</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160118234217078-1617370921.gif" alt=""></td>
+<td style="text-align:center">服务端错误</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="https://images2015.cnblogs.com/blog/626593/201601/626593-20160119000324093-1538967179.gif" alt=""></td>
+<td style="text-align:center">会话被客户端、Fiddler 或者服务端终止</td>
+</tr>
+</tbody>
+</table>
+<h5 id="监控面板">监控面板</h5>
+<p><a href="https://imgtu.com/i/WwdnTH"><img src="https://z3.ax1x.com/2021/07/21/WwdnTH.jpg" alt="WwdnTH.jpg"></a></p>
+<ul>
+<li><strong>统计报表</strong></li>
+</ul>
+<ol>
+<li>请求总数、请求包大小、响应包大小；</li>
+<li>请求起始时间、响应结束时间、握手时间、等待时间、路由时间、<code>TCP/IP</code>传输时间；</li>
+<li><code>HTTP</code>状态码统计；</li>
+<li>返回的各种类型数据的大小统计以及饼图展现。</li>
+</ol>
+<p><a href="https://imgtu.com/i/Wwd1pt"><img src="https://z3.ax1x.com/2021/07/21/Wwd1pt.jpg" alt="Wwd1pt.jpg"></a></p>
+<ul>
+<li><strong>时间轴</strong></li>
+</ul>
+<p>每个网络请求都会经历域名解析、建立连接、发送请求、接受数据等阶段。把多个请求以时间作为 X 轴，用图表的形式展现出来，就形成了瀑布图。在<code>Fiddler</code> 中，只要在左侧选中一些请求，右侧选择<code>Timeline</code>标签，就可以看到这些请求的瀑布图。</p>
+<p><a href="https://imgtu.com/i/Wwddts"><img src="https://z3.ax1x.com/2021/07/21/Wwddts.jpg" alt="Wwddts.jpg"></a></p>
+<p>初看上图，心中不免有几个问题？</p>
+<ol>
+<li>图标的 Y 轴上显示的是简化后的 URL。为什么有些是绿色的，有些是黑色的？</li>
+<li>为什么第一个请求用阴影线来表示，其它请求却都是实心的？</li>
+<li>请求条的不同颜色分别代表什么？</li>
+<li>每个请求中的黑色竖线表示什么？</li>
+<li>请求后面的图标（如闪电和软盘）代表了什么？</li>
+<li>每个请求前面两个小圆圈是什么，为什么有的是红色，有的是绿色？</li>
+</ol>
+<p>答案是：</p>
+<ol>
+<li>绿色的请求表示这是一个“有条件的请求”。HTTP 协议定义了 5 个条件请求头部，最常见的两个是“If-Modified-Since”和“If-None-Match”。服务器根据这两个头部来验证本地缓存是否过期，如果过期则正常返回资源的最新版本；否则仅返回 304 Not Modified，浏览器继续使用本地缓存。包含条件请求头部的请求用绿色显示，否则用黑色。</li>
+<li>有阴影线的请求是缓冲模式下的请求，实心的是流模式下的请求。Fiddler 提供了缓冲（Buffering）和流（Streaming）两种抓包模式：缓冲模式下，Fiddler 会在响应完成时才将数据返回给应用程序（通常是浏览器），这种模式下可以控制响应，方便地修改响应内容；流模式下，Fiddler 会实时返回响应数据给浏览器，但没办法控制响应。一般使用流模式，瀑布图会更真实一些。这两种模式可以通过 Fiddler 的工具栏选择。特别的，通过 Fiddler 的“AutoResponder”功能返回的响应，只能是缓冲模式。</li>
+<li>请求条的不同颜色对应着不同类型的响应，根据响应头的 MIME Type 来归类。如浅绿色表示图片类型的响应；深绿色是 JavaScript；紫色是 CSS；其它都是蓝色。</li>
+<li>请求中的黑色竖线，表示的是浏览器收到服务端响应的第一个字节这一时刻。这个时间受 DNS 解析、建立连接、发送请求、等待服务端响应等步骤的影响。</li>
+<li>请求条后面的图标表示响应的某些特征。如软盘图标表示这个响应正文从本地获得，也就是说服务端返回了 304；闪电表示这是 Fiddler 的“AutoResponder”的响应；向下的箭头表示响应是 302，需要重定向；红色感叹号说明这个请求有错误发生（状态码是 4XX 或 5XX）。特别的，如果请求条后面有一个红色的X，说明服务端响应完这个请求之后，断开了连接。出现这种情况一般有两种可能：HTTP/1.0 的响应中没有 Connection: Keep-Alive；或者是 HTTP/1.1 的响应中包含了 Connection: close。使用持久连接可以省去建立连接的开销，也可以减小 TCP 慢启动和其它拥塞控制机制带来的影响，总之是好处多多。</li>
+<li>请求前面的红色圆圈表示这个连接是新建的，绿色表示是复用的。上面的圆圈表示的是浏览器到 Fiddler 的连接，下面的圆圈是 Fiddler 到服务端的连接。</li>
+</ol>
+<h5 id="状态面板">状态面板</h5>
+<ul>
+<li>控制台</li>
+</ul>
+<p>Fiddler的左下角有一个命令行工具叫做QuickExec,允许你直接输入命令。</p>
+<p>常见的命令有：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">help</td>
+<td style="text-align:center">打开官方的使用页面介绍，所有的命令都会列出来</td>
+</tr>
+<tr>
+<td style="text-align:center">cls</td>
+<td style="text-align:center">清屏 (Ctrl+x 也可以清屏)</td>
+</tr>
+<tr>
+<td style="text-align:center">select</td>
+<td style="text-align:center">选择会话的命令</td>
+</tr>
+<tr>
+<td style="text-align:center">?.png</td>
+<td style="text-align:center">用来选择png后缀的图片</td>
+</tr>
+<tr>
+<td style="text-align:center">bpu</td>
+<td style="text-align:center">截获request</td>
+</tr>
+<tr>
+<td style="text-align:center">bpafter</td>
+<td style="text-align:center">截获response</td>
+</tr>
+</tbody>
+</table>
+<h4 id="request消息的结构">Request消息的结构</h4>
+<p><a href="https://imgtu.com/i/Wwd6nU"><img src="https://z3.ax1x.com/2021/07/21/Wwd6nU.png" alt="Wwd6nU.png"></a></p>
+<h4 id="response消息的结构">Response消息的结构</h4>
+<p><a href="https://imgtu.com/i/WwdWN9"><img src="https://z3.ax1x.com/2021/07/21/WwdWN9.png" alt="WwdWN9.png"></a></p>
+<h4 id="常用功能">常用功能</h4>
+<h5 id="监听https">监听https</h5>
+<p>Fiddler不仅能监听HTTP请求而且默认情况下也能捕获到HTTPS请求，Tool -&gt; Fiddler Option -&gt; HTTPS下面进行设置，勾选上“Decrypt HTTPS traffic”，如果不必监听服务器端得证书错误可以勾上“Ignore server certification errors”，也可以跳过几个指定的HOST来缩小或者扩大监听范围。</p>
+<p><a href="https://imgtu.com/i/WwdIc6"><img src="https://z3.ax1x.com/2021/07/21/WwdIc6.png" alt="WwdIc6.png"></a></p>
+<h5 id="host切换">Host切换</h5>
+<p>Tools-&gt;Hosts,</p>
+<p><a href="https://imgtu.com/i/WwdX4A"><img src="https://z3.ax1x.com/2021/07/21/WwdX4A.jpg" alt="WwdX4A.jpg"></a></p>
+<h5 id="模拟各类场景">模拟各类场景</h5>
+<ul>
+<li>
+<p>通过GZIP压缩，测试性能</p>
+</li>
+<li>
+<p>模拟Agent测试，查看服务端是否对不同客户端定制响应</p>
+</li>
+<li>
+<p>模拟慢速网络，测试页面的容错性</p>
+</li>
+<li>
+<p>禁用缓存，方便调试一些静态文件或测试服务端响应情况</p>
+</li>
+<li>
+<p>根据一些场景自定义规则</p>
+</li>
+<li>
+<p>低网速模拟</p>
+<p>有时出于兼容性考虑或者对某处进行性能优化，在低网速下往往能较快发现问题所在也容易发现性能瓶颈，可惜其他调试工具没能提供低网速环境，而强大的Fiddler考虑到了这一点，能够进行低网速模拟设置Rules &gt; Performance &gt; Stimulate Modem Speeds。</p>
+<p><a href="https://imgtu.com/i/WwwFEQ"><img src="https://z3.ax1x.com/2021/07/21/WwwFEQ.jpg" alt="WwwFEQ.jpg"></a></p>
+</li>
+</ul>
+<h5 id="compare对比文本">Compare(对比文本)</h5>
+<p>有时候两个请求比较相似，想找出区别，可以下载插件winziff，下载地址是</p>
+<p><a href="http://www.grigsoft.com/download-windiff.htm">http://www.grigsoft.com/download-windiff.htm</a>，下载以后，放到tools- fiddler option tool文件夹下，</p>
+<p>设置好路径就可以使用了。</p>
+<p><a href="https://imgtu.com/i/Wwweg0"><img src="https://z3.ax1x.com/2021/07/21/Wwweg0.jpg" alt="Wwweg0.jpg"></a></p>
+<h5 id="composer构造器">Composer(构造器)</h5>
+<p>​		请求构造顾名思义就是我们可以模拟请求，也就是说我们可以借助Fiddler的Composer 在不改动开发环境实际代码的情况下修改请求中的参数值并且方便的重新调用一次该请求，然后相比较2次请求响应有何具体不同。任何一个请求参数只要是合法的取值再次调用后都会有相应的响应，那么你想要的任意一个合法请求组合自然也能够按照你的意愿构造出来，然后再次调用以及查看返回数据，十分方便！</p>
+<p>​	Composer允许自定义请求发送到服务器，可以手动创建一个新的请求，也可以在会话表中，拖拽一个现有的请求，Parsed模式下你只需要提供简单的URLS地址即可（也可以在RequestBody定制一些属性，如模拟浏览器User-Agent）。</p>
+<h5 id="filters过滤监控">Filters(过滤监控)</h5>
+<p>​		对一个重新载入的页面进行抓包，如果包的条目过多而你需要关注的就那么几项的话，可以使用Fiddler的过滤器Filters进行抓包，那么抓包时只会抓取你希望抓到的那些包。切换到Filters标签勾选Use filter，以便激活过滤器，这样下面的各种过滤方式就可以进行选择了。</p>
+<p><a href="https://imgtu.com/i/WwwMbF"><img src="https://z3.ax1x.com/2021/07/21/WwwMbF.jpg" alt="WwwMbF.jpg"></a></p>
+<p><img src="http://ww4.sinaimg.cn/mw690/625782c8gw1elqxfps7xwj20e404074n.jpg" alt=""></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">选项1</th>
+<th style="text-align:center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">No zone filter</td>
+<td style="text-align:center">不设置hosts过滤</td>
+</tr>
+<tr>
+<td style="text-align:center">Show Only Intranet Hosts</td>
+<td style="text-align:center">只显示内网HOST</td>
+</tr>
+<tr>
+<td style="text-align:center">Show Only Internet Hosts</td>
+<td style="text-align:center">只显示外网HOST</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><strong>选项2</strong></th>
+<th style="text-align:center"><strong>解释</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">No Host Filter</td>
+<td style="text-align:center">不设置hosts过滤</td>
+</tr>
+<tr>
+<td style="text-align:center">Hide The Following Hosts</td>
+<td style="text-align:center">隐藏过滤到的域名</td>
+</tr>
+<tr>
+<td style="text-align:center">Show Only The Following Hosts</td>
+<td style="text-align:center">只显示过滤到的域名</td>
+</tr>
+<tr>
+<td style="text-align:center">Flag The Following Hosts</td>
+<td style="text-align:center">标记过滤到的域名</td>
+</tr>
+</tbody>
+</table>
+<h5 id="autoresponder请求重定向">AutoResponder(请求重定向)</h5>
+<p>所谓请求无非就是需要调用到的一些资源(包括JS、CSS和图片等)，所谓重定向就是将页面原本需要调用的资源指向其他资源(你能够控制的资源或者可以引用到的资源)。</p>
+<p>(1)你可以将前台服务器的诸多或者某个资源在本地做个副本，如果正常网络访问环境下该资源出现了BUG而导致开发环境崩溃时，可以先将这个资源的请求重定向到本地副本，这样就可以继续进行开发调试你的页面，从而大量节省资源维护的等待时间。</p>
+<p>(2)你也可以将多人同时维护的某个JS文件复制一份出来在本地，当你的开发调试收到他人调试代码干扰时，可以将这个JS的调用重定向到本地无干扰的JS文件，进行无干扰开发，功能开发完成并调试OK之后再将你的代码小心合入到开发环境中，这样就可以避免受到他人干扰专心搞你的模块开发，也就是说能够将JS文件脱离开发环境却不影响线上调试。</p>
+<p>(3)你还可以将样式文件或者图片指向本地如果需要的话。开发过程中的很多页面其实都是惨不忍睹的，究其原因很大程度上是因为缺少对应的样式文件或者没有图片资源，所以样式文件和图片的重定向会对美感稍有要求的开发人员带来福音。</p>
+<p><img src="http://ww4.sinaimg.cn/mw690/625782c8gw1elqy1v4k8qj20ds051my1.jpg" alt=""></p>
+<h4 id="插件介绍">插件介绍</h4>
+<h5 id="format">Format</h5>
+<p><img src="http://ww1.sinaimg.cn/mw690/625782c8gw1elxlq1u81sj20nj0akdp3.jpg" alt=""></p>
+<h5 id="script">Script</h5>
+<ul>
+<li>Fiddler Script 是用JScript.NET语言写的，<a href="http://msdn.microsoft.com/zh-cn/library/cc435359(VS.71).aspx">JScript.NET</a></li>
+<li>在这个方法中修改Request的内容， 我们用得最多,</li>
+</ul>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">function</span> OnBeforeRequest(oSession<span style="color:#000;font-weight:bold">:</span> Session)
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>在这个方法中修改修改Response的内容</li>
+</ul>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">function</span> OnBeforeResponse(oSession<span style="color:#000;font-weight:bold">:</span> Session)
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>在IP Main方法中添加</li>
+</ul>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">FiddlerObject.UI.lvSessions.AddBoundColumn(<span style="color:#d14">&#34;HostIP&#34;</span>, <span style="color:#099">50</span>, <span style="color:#d14">&#34;x-hostIP&#34;</span>);
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>请求，响应延迟 在OnBeforeRequest 添加</li>
+</ul>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">oSession[<span style="color:#d14">&#34;request-trickle-delay&#34;</span>]  <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;3000&#34;</span>; 
+oSession[<span style="color:#d14">&#34;response-trickle-delay&#34;</span>] <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;3000&#34;</span>;
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>我们可以控制Session在Fiddler中显示的样式，把这段脚本放在OnBeforeRequest(oSession: Session) 方法下，并且点击&quot;Save script&quot;, 这样所有的cnblogs的会话都会显示红色.</li>
+</ul>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"> <span style="color:#000;font-weight:bold">if</span> (oSession.HostnameIs(<span style="color:#d14">&#34;www.cnblogs.com&#34;</span>)) {
+            oSession[<span style="color:#d14">&#34;ui-color&#34;</span>] <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;red&#34;</span>;
+        }
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Fiddler Script中修改Cookie
+Cookie其实就是request 中的一个header,注意:FiddlerScript不能直接删除或者编辑单独的一个cookie， 你需要用replace方法或者正则表达式的方法去操作cookie的string</li>
+</ul>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">function</span> OnBeforeRequest(oSession<span style="color:#000;font-weight:bold">:</span> Session) 
+{ 
+     <span style="color:#000;font-weight:bold">if</span> (oSession.HostnameIs(<span style="color:#d14">&#39;www.example.com&#39;</span>)
+       <span style="color:#000;font-weight:bold">&amp;&amp;</span> oSession.uriContains(<span style="color:#d14">&#39;pagewithCookie&#39;</span>) 
+       <span style="color:#000;font-weight:bold">&amp;&amp;</span> oSession.oRequest.headers.Contains(<span style="color:#d14">&#34;Cookie&#34;</span>)) 
+     { 
+         <span style="color:#000;font-weight:bold">var</span> sCookie <span style="color:#000;font-weight:bold">=</span> oSession.oRequest[<span style="color:#d14">&#34;Cookie&#34;</span>]; 
+         
+         <span style="color:#998;font-style:italic">// 用replace方法或者正则表达式的方法去操作cookie的string
+</span><span style="color:#998;font-style:italic"></span>         sCookie <span style="color:#000;font-weight:bold">=</span> sCookie.Replace(<span style="color:#d14">&#34;cookieName=&#34;</span>, <span style="color:#d14">&#34;ignoreme=&#34;</span>); 
+         oSession.oRequest[<span style="color:#d14">&#34;Cookie&#34;</span>] <span style="color:#000;font-weight:bold">=</span> sCookie; 
+    }
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>删除所有的cookie</li>
+</ul>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">oSession.oRequest.headers.Remove(<span style="color:#d14">&#34;Cookie&#34;</span>);
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>新建cookie</li>
+</ul>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">oSession.oRequest.headers.Add(<span style="color:#d14">&#34;Cookie&#34;</span>, <span style="color:#d14">&#34;username=testname;testpassword=P@ssword1&#34;</span>);
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Fiddler Script中修改Request 中的body</li>
+</ul>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">function</span> OnBeforeRequest(oSession<span style="color:#000;font-weight:bold">:</span> Session) 
+{ 
+    <span style="color:#000;font-weight:bold">if</span>(oSession.uriContains(<span style="color:#d14">&#34;http://www.cnblogs.com/&#34;</span>))
+    {
+        <span style="color:#998;font-style:italic">// 获取Request中的body字符串
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">var</span> strBody<span style="color:#000;font-weight:bold">=</span>oSession.GetRequestBodyAsString();
+        
+        <span style="color:#998;font-style:italic">// 用正则表达式或者replace方法去修改string
+</span><span style="color:#998;font-style:italic"></span>        strBody<span style="color:#000;font-weight:bold">=</span>strBody.replace(<span style="color:#d14">&#34;1111&#34;</span>,<span style="color:#d14">&#34;2222&#34;</span>);
+        
+        <span style="color:#998;font-style:italic">// 弹个对话框检查下修改后的body               
+</span><span style="color:#998;font-style:italic"></span>        FiddlerObject.alert(strBody);
+        
+        <span style="color:#998;font-style:italic">// 将修改后的body，重新写回Request中
+</span><span style="color:#998;font-style:italic"></span>        oSession.utilSetRequestBody(strBody);
+    }
+}
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://visualstudiogallery.msdn.microsoft.com/872d27ee-38c7-4a97-98dc-0d8a431cc2ed">Vs插件</a></p>
+<h5 id="三方插件">三方插件</h5>
+<ul>
+<li>.NET可以开发</li>
+<li>插件管理</li>
+</ul>
+<p><a href="https://imgtu.com/i/WwwYgx"><img src="https://z3.ax1x.com/2021/07/21/WwwYgx.jpg" alt="WwwYgx.jpg"></a></p>
+<p>可供Fiddler使用的第三方插件地址如下：
+<a href="http://pan.baidu.com/s/1mgocpBi">http://pan.baidu.com/s/1mgocpBi</a>
+<a href="http://fiddler.com/add-ons">http://fiddler.com/add-ons</a></p>
+<h4 id="浏览器抓包方式">浏览器抓包方式</h4>
+<h5 id="ie">IE</h5>
+<p><a href="https://imgtu.com/i/Www0Ve"><img src="https://z3.ax1x.com/2021/07/21/Www0Ve.jpg" alt="Www0Ve.jpg"></a></p>
+<h5 id="firefox">FireFox</h5>
+<p><a href="https://imgtu.com/i/Www62t"><img src="https://z3.ax1x.com/2021/07/21/Www62t.jpg" alt="Www62t.jpg"></a></p>
+<h5 id="chrome">Chrome</h5>
+<p><a href="https://imgtu.com/i/Www2Kf"><img src="https://z3.ax1x.com/2021/07/21/Www2Kf.jpg" alt="Www2Kf.jpg"></a></p>
+<h5 id="visual-studio">Visual Studio</h5>
+<p>我们会用Visual Studio来开发ASP.NET网站的时候也需要用Fiddler来分析HTTP, 默认的时候Fiddler是不能嗅探到localhost的网站。在localhost后面加个点号，Fiddler就能嗅探到。</p>
+<p>例如：原本ASP.NET的地址是 http://localhost:2391/Default.aspx， 加个点号后，变成 http://localhost.:2391/Default.aspx 就可以了。</p>
+<p><a href="https://imgtu.com/i/WwwLrT"><img src="https://z3.ax1x.com/2021/07/21/WwwLrT.jpg" alt="WwwLrT.jpg"></a></p>
+<h4 id="移动端抓包">移动端抓包</h4>
+<p>Fiddler不但能截获各种浏览器发出的HTTP请求, 也可以截获各种智能手机发出的HTTP/HTTPS请求。</p>
+<p>Fiddler能捕获IOS,Andriod,WinPhone,设备发出的请求，同理，也可以截获IPad, MacBook的等设备发出的HTTP/HTTPS。</p>
+<p>前提条件是：安装Fiddler的机器，跟Iphone 在同一个网络里， 否则IPhone不能把HTTP发送到Fiddler的机器上来。</p>
+<p>具体操作步骤如下：</p>
+<ul>
+<li>Fiddler设置</li>
+</ul>
+<p>打开Fiddler，Tools-》Fiddler Options。(配置完记得要重启Fiddler)</p>
+<p>选中“Allow remote computers to connect”，是允许别的机器把HTTP/HTTPS请求发送到Fiddler上来</p>
+<p><a href="https://imgtu.com/i/Ww0Si9"><img src="https://z3.ax1x.com/2021/07/21/Ww0Si9.jpg" alt="Ww0Si9.jpg"></a></p>
+<ul>
+<li>
+<p>获取Fiddler所在机器IP</p>
+</li>
+<li>
+<p>安装Fiddler证书</p>
+<p>这一步是为了让Fiddler能捕获HTTPS请求。 如果你只需要截获HTTP请求， 可以忽略这一步，首先要知道Fiddler所在的机器的IP地址：假如我安装了Fiddler的机器的IP地址是:192.168.1.104
+打开手机的浏览器, 访问 http://192.168.1.104:8888， 点&quot;FiddlerRoot certificate&quot; 然后安装证书。</p>
+<p>再打开手机, 找到你的网络连接， 打开HTTP代理， 输入Fiddler所在机器的IP地址(比如:192.168.1.104) 以及Fiddler的端口号8888</p>
+</li>
+</ul>
+<p>另一种方式是通过WiFi，理解Fiddler抓取移动端的数据包，看看下面这张图；</p>
+<p><a href="https://imgtu.com/i/Ww0Kzt"><img src="https://z3.ax1x.com/2021/07/21/Ww0Kzt.png" alt="Ww0Kzt.png"></a></p>
+<p>​	可以看出，移动端的数据包都是需要走WiFi出去的，因此我们可以把电脑热点打开，将手机连上电脑，Fiddler开启代理后，让这些数据通过Fiddler，Fiddler就可以抓到这些包，然后发给路由器。</p>
+<p><a href="https://imgtu.com/i/Ww0JoQ"><img src="https://z3.ax1x.com/2021/07/21/Ww0JoQ.png" alt="Ww0JoQ.png"></a></p>
+<h4 id="推荐书籍">推荐书籍</h4>
+<ul>
+<li>《Fiddler调试权威指南》</li>
+</ul>
+<p>​        这本书是Fiddler的开发者Eric Lawrence编写的一本权威的参考指南。全书分为10章和4个附录，从认识Fiddler开始，介绍了基本技巧和概念、配置选项、Inspectors、扩展、数据流导入导出、FiddlerScript和FiddlerCore等主题；附录部分还给出了故障排除和命令行等有用的参考信息。</p>
+<p>​	它适合Web开发人员和Web测试人员阅读参考，也适合想要学习和掌握Fiddler的读者阅读。通过《Fiddler调试权威指南》，你将学会如何利用Fiddler调试Web相关的应用，掌握如何调试HTTPS数据流，学会如何在流行的设备上使用Fiddler，甚至掌握更多高级的扩展功能。</p>
+<h4 id="其他同类抓包工具">其他同类抓包工具</h4>
+<p>​	同类的工具有 : HttpWatch，Firebug，Chrome自带调试工具，WireShark。</p>
+<h4 id="总结">总结</h4>
+<ul>
+<li>Fiddler能记录所有客户端和服务器的<code>HTTP</code>和<code>HTTPS</code>请求，允许你监视、设置断点，甚至修改输入输出数据，Fiddler包含了一个强大的基于事件脚本的子系统，并且能使用<code>.NET</code>语言进行扩展；</li>
+<li>你对<code>HTTP</code>协议越了解，你就能越掌握Fiddler的使用方法，你越使用Fiddler,就越能帮助你了解<code>HTTP</code>协议，两者关系紧密、相辅相成；</li>
+<li>强大图形呈现，拖拽操作，丰富的插件。</li>
+<li>使用Fiddler无论对<code>Coder</code>还是<code>Tester</code>来说，都是非常有用的工具。</li>
+</ul>
+<h3 id="参考文献">参考文献</h3>
+<ol>
+<li><a href="https://www.cnblogs.com/yyhh/p/5140852.html">Fiddler抓包工具总结</a></li>
+<li><a href="https://www.cnblogs.com/FounderBox/p/4653588.html?utm_source=tuicool">Fiddler教程</a></li>
+<li><a href="https://docs.telerik.com/fiddler/configure-fiddler/tasks/configurefiddler">Fiddler官方教程</a></li>
+</ol>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">bomir</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2019-08-17
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://Shaper-fox.github.io/tags/fiddler/">Fiddler</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/rest-api-test/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Rest API接口测试</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/http/">
+            <span class="next-text nav-default">HTTP</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:jinchunw@385@gmail.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://github.com/Bicomir" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+
+
+<a href="https://Shaper-fox.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2017 -
+    2021
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        bomir
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

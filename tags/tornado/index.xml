@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tornado on Wallis</title>
+    <link>https://Shaper-fox.github.io/tags/tornado/</link>
+    <description>Recent content in Tornado on Wallis</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 03 Jul 2019 17:51:08 +0000</lastBuildDate><atom:link href="https://Shaper-fox.github.io/tags/tornado/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>浅谈Tornado</title>
+      <link>https://Shaper-fox.github.io/post/basic-tornado/</link>
+      <pubDate>Wed, 03 Jul 2019 17:51:08 +0000</pubDate>
+      
+      <guid>https://Shaper-fox.github.io/post/basic-tornado/</guid>
+      <description>高并发处理框架—Tornado Tornado介绍 ​ Tornado是一个可扩展的非阻塞式Web服务器及其相关工具的开源版本。Tornado每秒</description>
+    </item>
+    
+  </channel>
+</rss>

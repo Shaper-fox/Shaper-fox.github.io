@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://bomir.github.io/sitemap.xml
+Sitemap: https://shaper-fox.github.io/sitemap.xml
